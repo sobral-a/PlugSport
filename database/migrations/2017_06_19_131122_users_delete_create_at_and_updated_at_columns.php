@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateUsersTable extends Migration
+class UsersDeleteCreateAtAndUpdatedAtColumns extends Migration
 {
     /**
      * Run the migrations.
@@ -15,9 +15,7 @@ class UpdateUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table)
         {
-
-            $table->string('first_name');
-            $table->enum('profil', ['joueur', 'entraineur']);
+            $table->dropColumn(['created_at', 'updated_at']);
         });
     }
 
@@ -30,7 +28,7 @@ class UpdateUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table)
         {
-            $table->dropColumn(['first_name', 'profile']);
+            $table->timestamps();
         });
     }
 }
