@@ -65,6 +65,7 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li><a href="{{ route('sports') }}">Sports</a></li>
                         @endif
                     </ul>
                 </div>
