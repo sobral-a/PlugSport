@@ -22,16 +22,16 @@
                             <ul class="list-group">
                                 @foreach($events as $event)
                                     <li class="list-group-item">
-                                        {{ $event->name }}
-                                            <div class="btn-group pull-right">
-                                                <form class="form-horizontal" role="form" method="POST" action="/events/{{ $event->id }}">
-                                                    {{ csrf_field() }}
-                                                    {{ method_field('DELETE') }}
-                                                    <button type="submit" class="btn btn btn-danger btn-xs">
-                                                        Supprimer
-                                                    </button>
-                                                </form>
-                                            </div>
+                                        <a href="/events/{{ $event->id }}/view">{{ $event->name }}</a>
+                                        <div class="btn-group pull-right">
+                                            <form class="form-horizontal" role="form" method="POST" action="/events/{{ $event->id }}">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                                <button type="submit" class="btn btn btn-danger btn-xs">
+                                                    Supprimer
+                                                </button>
+                                            </form>
+                                        </div>
                                     </li>
                                 @endforeach
                             </ul>
@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="number" class="control-label"># Teams</label>
-                                        <input type="number" class="form-control" name="teams_number" step="1" value="0" min="0" max="100" required autofocus>
+                                        <input type="number" class="form-control" name="teams_number" step="1" value="{{ old('teams_number') }}" min="0" max="100" required autofocus>
                                     </div>
                                     <div class="form-group">
                                         <label for="date" class="control-label">Date</label>

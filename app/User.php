@@ -11,6 +11,9 @@ class User extends Authenticatable
     use Notifiable;
 
     public $timestamps = false;
+    protected $casts = [
+        'isAdmin' => 'boolean',
+    ];
 
     /**
      * The attributes that are mass assignable.

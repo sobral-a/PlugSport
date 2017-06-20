@@ -4,11 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
+class Team extends Model
 {
     public $timestamps = false;
-    protected $dateFormat = 'U';
-    //protected $table = 'sport';
 
     /**
      * The attributes that are mass assignable.
@@ -16,12 +14,12 @@ class Event extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'adresss', 'teams_number', 'date', 'description'
+        'name', 'banned'
     ];
 
     public function sport()
     {
-      return $this->belongsTo(Sport::class);
+        return $this->belongsTo(Sport::class);
     }
 
     public function user()

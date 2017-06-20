@@ -46,11 +46,11 @@
                             <li><a href="{{ route('login') }}">Se connecter</a></li>
                             <li><a href="{{ route('register') }}">S'inscrire</a></li>
                         @else
-                            @if (Auth::user()->isAdmin == 1)
+                            @if (Auth::user()->isAdmin)
                                 <li><a href="{{ route('sports') }}">Sports</a></li>
                             @endif
                             <li>
-                                @if(Auth::user()->isAdmin == 1)
+                                @if(Auth::user()->isAdmin)
                                     <a href="{{ route('eventsAdmin') }}">Evènements</a>
                                 @else
                                     <a href="/events/{{Auth::id()}}">Mes évènements</a>

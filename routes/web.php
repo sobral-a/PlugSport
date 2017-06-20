@@ -24,6 +24,7 @@ Route::delete('/sports/{sport}', 'SportsController@removeSport');
 Route::post('/sports', 'SportsController@addSport');
 
 Route::get('/eventsAdmin', 'EventsController@eventsAdmin')->name('eventsAdmin');
+Route::delete('/events/{event}', 'EventsController@removeEvent');
 Route::get('/events/{user}', 'EventsController@events');
 Route::post('/events/{user}', 'EventsController@addEvent');
-
+Route::get('/events/{event}/view', 'EventsController@eventView');

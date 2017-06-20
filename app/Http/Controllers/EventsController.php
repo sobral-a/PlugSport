@@ -55,4 +55,9 @@ class EventsController extends Controller
         return back();
     }
 
+    public function eventView(Event $event)
+    {
+        $sports = Sport::all();
+        return view('event', compact('event', 'sports' ));
+    }
 }
