@@ -28,8 +28,8 @@ class EventsController extends Controller
         $event->date = $request->date;
         $event->description = $request->description;
         $event->date = $request->date;
-        $event->sport = $request->sport;
-        $event->user = $user;
+        $event->sport_id = $request->sport;
+        $event->user_id = $user->id;
         $event->save();
 
         return back();
