@@ -16,13 +16,14 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Mes évènements</div>
+                    <div class="panel-heading">Evènements</div>
 
                     <div class="panel-body">
                         <ul class="list-group">
                             @foreach($events as $event)
                                 <li class="list-group-item">
                                     {{ $event->name }}
+                                    @if (Auth::user()->isAdmin == 1)
                                         <div class="btn-group pull-right">
                                             <form class="form-horizontal" role="form" method="POST" action="/events/{{ $event->id }}">
                                                 {{ csrf_field() }}
@@ -32,6 +33,7 @@
                                                 </button>
                                             </form>
                                         </div>
+                                    @endif
                                 </li>
                             @endforeach
                         </ul>

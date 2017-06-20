@@ -35,10 +35,17 @@ class EventsController extends Controller
         return back();
     }
 
-    public function events()
+    public function eventsAdmin()
     {
         $sports = Sport::all();
         $events = Event::all(); //->whereDate('date','>=', Carbon::today()->toDateString())
+        return view('events_admin', compact('events', 'sports' ));
+    }
+
+    public function events(User $user)
+    {
+        $sports = Sport::all();
+        $events = $user->events; //->whereDate('date','>=', Carbon::today()->toDateString())
         return view('events', compact('events', 'sports' ));
     }
 

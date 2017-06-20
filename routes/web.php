@@ -23,6 +23,7 @@ Route::get('/sports', 'SportsController@sports')->name('sports');
 Route::delete('/sports/{sport}', 'SportsController@removeSport');
 Route::post('/sports', 'SportsController@addSport');
 
-Route::get('/events', 'EventsController@events')->name('events');
+Route::get('/eventsAdmin', 'EventsController@eventsAdmin')->name('eventsAdmin');
+Route::get('/events/{user}', 'EventsController@events');
 Route::post('/events/{user}', 'EventsController@addEvent');
 

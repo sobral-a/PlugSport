@@ -50,9 +50,11 @@
                                 <li><a href="{{ route('sports') }}">Sports</a></li>
                             @endif
                             <li>
-                                <a href="{{ route('events') }}">
-                                    @if(Auth::user()->isAdmin == 1) Evènements @else Mes évènements @endif
-                                </a>
+                                @if(Auth::user()->isAdmin == 1)
+                                    <a href="{{ route('eventsAdmin') }}">Evènements</a>
+                                @else
+                                    <a href="/events/{{Auth::id()}}">Mes évènements</a>
+                                @endif
                             </li>
 
                             <li class="dropdown">
