@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Illuminate\Http\Request;
 use App\Sport;
 
@@ -12,7 +11,8 @@ class SportsController extends Controller
     {
         $sport = new Sport();
         $sport->name = $request->name;
-        return $sport->save();
+        $sport->save();
+        return back();
     }
 
     public function sports()

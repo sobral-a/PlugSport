@@ -21,3 +21,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/sports', 'SportsController@sports')->name('sports');
 Route::delete('/sports/{sport}', 'SportsController@removeSport');
+Route::post('/sports', 'SportsController@addSport');
