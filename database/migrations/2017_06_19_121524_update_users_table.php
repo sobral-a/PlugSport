@@ -15,9 +15,9 @@ class UpdateUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table)
         {
-
             $table->string('first_name');
-            $table->enum('profil', ['joueur', 'entraineur']);
+            $table->enum('profil', ['joueur', 'entraineur'])->nullable();
+            $table->tinyInteger('isAdmin')->default(0);
         });
     }
 
@@ -30,7 +30,7 @@ class UpdateUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table)
         {
-            $table->dropColumn(['first_name', 'profile']);
+            $table->dropColumn(['first_name', 'profil', 'isAdmin']);
         });
     }
 }

@@ -55,6 +55,10 @@
                                 <input type="text"  class="form-control" name="name" value="{{ old('name') }}" required autofocus>
                             </div>
                             <div class="form-group">
+                                <label for="number" class="control-label"># Players</label>
+                                <input type="number" class="form-control" name="number" step="1" value="0" min="0" max="20" required autofocus>
+                            </div>
+                            <div class="form-group">
                                 <button type="submit" class="btn btn-primary">
                                     Ajouter
                                 </button>

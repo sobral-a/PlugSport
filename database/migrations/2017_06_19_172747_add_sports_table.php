@@ -16,6 +16,7 @@ class AddSportsTable extends Migration
         Schema::create('sport', function (Blueprint $table) {
             $table->increments('id');
             $table->string("name")->unique();
+            $table->integer('number');
 
         });
     }

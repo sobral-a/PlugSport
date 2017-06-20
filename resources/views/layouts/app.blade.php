@@ -46,6 +46,15 @@
                             <li><a href="{{ route('login') }}">Se connecter</a></li>
                             <li><a href="{{ route('register') }}">S'inscrire</a></li>
                         @else
+                            @if (Auth::user()->isAdmin == 1)
+                                <li><a href="{{ route('sports') }}">Sports</a></li>
+                            @endif
+                            <li>
+                                <a href="{{ route('events') }}">
+                                    @if(Auth::user()->isAdmin == 1) Evènements @else Mes évènements @endif
+                                </a>
+                            </li>
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->first_name }} <span class="caret"></span>
@@ -65,7 +74,6 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="{{ route('sports') }}">Sports</a></li>
                         @endif
                     </ul>
                 </div>
