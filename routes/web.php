@@ -28,3 +28,14 @@ Route::delete('/events/{event}', 'EventsController@removeEvent');
 Route::get('/events/{user}', 'EventsController@events');
 Route::post('/events/{user}', 'EventsController@addEvent');
 Route::get('/events/{event}/view', 'EventsController@eventView');
+
+
+Route::get('/teams/{user}', 'TeamsController@teams');
+Route::delete('/teams/{team}', 'TeamsController@removeTeam');
+Route::post('/teams/{user}', 'TeamsController@addTeam');
+Route::patch('/teams/{team}/ban', 'TeamsController@banTeam');
+Route::patch('/teams/{team}', 'TeamsController@allowTeam');
+
+
+
+

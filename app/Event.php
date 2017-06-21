@@ -8,7 +8,9 @@ class Event extends Model
 {
     public $timestamps = false;
     protected $dateFormat = 'U';
-    //protected $table = 'sport';
+    protected $casts = [
+        'isAdmin' => 'boolean',
+    ];
 
     /**
      * The attributes that are mass assignable.

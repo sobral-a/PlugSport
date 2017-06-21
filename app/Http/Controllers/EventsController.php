@@ -13,7 +13,7 @@ class EventsController extends Controller
     public function addEvent(Request $request, User $user)
     {
         $this->validate($request, [
-            'name'         => 'required|string|min:2|max:30',
+            'name'         => 'required|string|min:2|max:100',
             'adress'       => 'required|string|min:5|max:200',
             'teams_number' => 'required|integer|min:1|max:100',
             'date'         => 'required|date',

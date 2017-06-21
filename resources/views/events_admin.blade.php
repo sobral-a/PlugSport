@@ -19,6 +19,11 @@
                         <div class="panel-heading">Evènements</div>
 
                         <div class="panel-body">
+                            @if (count($events) == 0)
+                                <div class="alert alert-info">
+                                    <strong>Il n'y a actuellement pas d'évènement</strong>
+                                </div>
+                            @endif
                             <ul class="list-group">
                                 @foreach($events as $event)
                                     <li class="list-group-item">
