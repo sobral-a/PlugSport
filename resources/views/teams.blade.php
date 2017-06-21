@@ -52,15 +52,17 @@
                                                 <div class="btn-group pull-right">
                                                     <button type="button" class="btn btn-warning btn-xs">Banned</button>
                                                 </div>
-                                                <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="/teams/{{ $team->id }}">
-                                                        {{ csrf_field() }}
-                                                        {{ method_field('PATCH') }}
-                                                        <button type="submit" class="btn btn-success btn-xs">
-                                                            Allow
-                                                        </button>
-                                                    </form>
-                                                </div>
+                                                @if (Auth::user()->isAdmin)
+                                                    <div class="btn-group pull-right">
+                                                        <form class="form-horizontal" role="form" method="POST" action="/teams/{{ $team->id }}">
+                                                            {{ csrf_field() }}
+                                                            {{ method_field('PATCH') }}
+                                                            <button type="submit" class="btn btn-success btn-xs">
+                                                                Allow
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                @endif
                                             @endif
                                         @endif
                                     </li>

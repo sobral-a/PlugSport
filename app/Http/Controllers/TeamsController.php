@@ -62,16 +62,24 @@ class TeamsController extends Controller
         return back();
     }
 
-    public function eventView(Event $event)
-    {
-        $sports = Sport::all();
-        return view('event', compact('event', 'sports' ));
-    }
-
     public function teamView(Team $team)
     {
         $sports = Sport::all();
-        $team = Team::with('user', 'sport', 'players')->get();
+        $team = Team::with('user', 'sport', 'players')->where('id', '=', $team->id)->get();
         return view('team', compact('team', 'sports' ));
+    }
+
+    public function playerTeams(User $user)
+    {
+
+        $user = User::with('inTeams')->where('id', '=', $user->id)->get();
+        $userTeamsIds = [];
+        foreach ($user->first()->inTeams as $team)
+        {
+                $userTeamsIds[] = $team->id;
+
+        }
+        $allTeams = Team::whereNotIn('id', $userTeamsIds)->get();
+        return view('teams_player', compact('allTeams', 'user' ));
     }
 }

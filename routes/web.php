@@ -36,7 +36,9 @@ Route::post('/teams/{user}', 'TeamsController@addTeam');
 Route::patch('/teams/{team}/ban', 'TeamsController@banTeam');
 Route::patch('/teams/{team}', 'TeamsController@allowTeam');
 
+Route::get('/teams/{user}/player', 'TeamsController@playerTeams');
 Route::get('/teams/{team}/view', 'TeamsController@teamView');
+
 
 
 

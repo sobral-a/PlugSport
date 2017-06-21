@@ -53,7 +53,9 @@
                             @endif
                             @if (Auth::user()->profil == 'joueur')
                                  <li><a href="/events/{{ Auth::id() }}">Mes évènements</a></li>
-                            @endif
+
+                                 <li><a href="/teams/{{  Auth::id() }}/player">Equipes</a></li>
+                                @endif
                             @if(Auth::user()->profil == 'entraineur' && !Auth::user()->isAdmin)
                                 <li><a href="/events/{{ Auth::id() }}">Mes évènements</a></li>
                                 <li><a href="/teams/{{  Auth::id() }}">Equipes</a></li>
