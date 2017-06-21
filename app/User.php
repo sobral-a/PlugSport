@@ -42,4 +42,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Team::class);
     }
+
+    public function inTeams()
+    {
+        return $this->belongsToMany(Team::class, 'user_team');
+    }
 }

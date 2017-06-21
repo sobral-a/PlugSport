@@ -67,4 +67,11 @@ class TeamsController extends Controller
         $sports = Sport::all();
         return view('event', compact('event', 'sports' ));
     }
+
+    public function teamView(Team $team)
+    {
+        $sports = Sport::all();
+        $team = Team::with('user', 'sport', 'players')->get();
+        return view('team', compact('team', 'sports' ));
+    }
 }
