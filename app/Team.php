@@ -35,4 +35,9 @@ class Team extends Model
         return $this->belongsToMany(User::class, 'user_team')->withPivot('status');
     }
 
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'team_event');
+    }
+
 }
