@@ -123,7 +123,7 @@
                                                 <li>
                                                     {{ $player->first_name }} {{ $player->name }}
                                                     <div class="btn-group pull-right">
-                                                        <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team[0]->id }}/{{ Auth::id() }}">
+                                                        <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team[0]->id }}/{{ $player->id }}">
                                                             {{ csrf_field() }}
                                                             {{ method_field('DELETE') }}
                                                             <button type="submit" class="btn btn btn-danger btn-xs">
@@ -148,7 +148,7 @@
                                             <li>
                                                 {{ $player->first_name }} {{ $player->name }}
                                                 <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team[0]->id }}/{{ Auth::id() }}">
+                                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team[0]->id }}/{{ $player->id }}">
                                                         {{ csrf_field() }}
                                                         {{ method_field('DELETE') }}
                                                         <button type="submit" class="btn btn btn-danger btn-xs">

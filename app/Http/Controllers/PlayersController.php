@@ -22,7 +22,15 @@ class PlayersController extends Controller
 
         $nb = Sport::find($team->sport_id)->number;
         //TODO: check only the players (status)
-        if (count($team->players) < $nb)
+        $count = 0;
+        foreach ($team->players as $p)
+        {
+            if ($p->pivot->status == 'player')
+            {
+                $count++;
+            }
+        }
+        if ($count < $nb)
         {
             $team->players()->attach($user);
         }
@@ -45,7 +53,16 @@ class PlayersController extends Controller
         //TODO:test si nombre de personnes qui sont dans l'équipe est atteint
         $nb = Sport::find($team->sport_id)->number;
         //TODO: check only the players (status)
-        if (count($team->players) < $nb)
+        $count = 0;
+        foreach ($team->players as $p)
+        {
+            if ($p->pivot->status == 'player')
+            {
+                $count++;
+            }
+        }
+
+        if ($count < $nb)
         {
             $player = $team->players()->where('id', $user->id)->get()->first();
             $player->pivot->status = 'player';
