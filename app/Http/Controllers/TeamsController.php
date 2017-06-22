@@ -77,9 +77,8 @@ class TeamsController extends Controller
         foreach ($user->first()->inTeams as $team)
         {
                 $userTeamsIds[] = $team->id;
-
         }
-        $allTeams = Team::whereNotIn('id', $userTeamsIds)->get();
+        $allTeams = Team::with('sport')->whereNotIn('id', $userTeamsIds)->get();
         return view('teams_player', compact('allTeams', 'user' ));
     }
 }

@@ -46,6 +46,7 @@ class EventsController extends Controller
     {
         $sports = Sport::all();
         $events = $user->events; //->whereDate('date','>=', Carbon::today()->toDateString())
+        //TODO: crér pivot table pour associer une equipe à un event
         return view('events', compact('events', 'sports' ));
     }
 

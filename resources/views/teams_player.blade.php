@@ -47,6 +47,15 @@
                                                     <button type="button" class="btn btn-warning btn-xs">Banned</button>
                                                 </div>
                                             @endif
+                                                <div class="btn-group pull-right">
+                                                    <form class="form-horizontal" role="form" method="POST" action="/teams/{{ $team->id }}/{{ Auth::id() }}">
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('DELETE') }}
+                                                        <button type="submit" class="btn btn btn-danger btn-xs">
+                                                            Quitter
+                                                        </button>
+                                                    </form>
+                                                </div>
                                         </li>
                                     @endforeach
                                 </ul>
@@ -80,14 +89,22 @@
                                                 <button type="button" class="btn btn-warning btn-xs">Banned</button>
                                             </div>
                                         @else
-                                            <div class="btn-group pull-right">
-                                                <form class="form-horizontal" role="form" method="POST" action="#">
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn btn-success btn-xs">
-                                                        Candidater
+                                            @if ($team->sport->number == count($team->players))
+                                                <div class="btn-group pull-right">
+                                                    <button type="submit" class="btn btn-primary btn-sm">
+                                                        Equipe pleine
                                                     </button>
-                                                </form>
-                                            </div>
+                                                </div>
+                                            @else
+                                                <div class="btn-group pull-right">
+                                                    <form class="form-horizontal" role="form" method="POST" action="/teams/{{ $team->id }}/{{ Auth::id() }}">
+                                                        {{ csrf_field() }}
+                                                        <button type="submit" class="btn btn-success btn-sm">
+                                                            Candidater
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            @endif
                                         @endif
                                     </li>
                                 @endforeach
