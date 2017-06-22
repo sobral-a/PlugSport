@@ -87,7 +87,7 @@
                                                 <button type="button" class="btn btn-warning btn-xs">Banned</button>
                                             </div>
                                         @else
-                                            @if ($team->sport->number == count($team->players))
+                                            @if ($team->sport->number == count($team->players->where('pivot.status', 'player')))
                                                 <div class="btn-group pull-right">
                                                     <button type="submit" class="btn btn-primary btn-sm">
                                                         Equipe pleine
