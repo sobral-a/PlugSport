@@ -32,7 +32,7 @@ class Event extends Model
     }
     public function events()
     {
-        return $this->belongsToMany(Team::class, 'team_event');
+        return $this->belongsToMany(Team::class, 'team_event')->withPivot('status');
     }
 
 }
