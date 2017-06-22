@@ -23,6 +23,8 @@ class CreateTeamEventTable extends Migration
             $table->foreign('event_id')->references('id')
                 ->on('events')->onDelete('cascade');
 
+            $table->enum('status', ['waiting', 'denied', 'player'])->default('waiting');
+
         });
     }
 
