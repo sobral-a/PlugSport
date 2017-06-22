@@ -65,6 +65,13 @@
                                                 @endif
                                             @endif
                                         @endif
+                                        @if ($team->sport->number == count($team->players))
+                                            <div class="btn-group pull-right">
+                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                    Equipe pleine
+                                                </button>
+                                            </div>
+                                        @endif
                                     </li>
                                 @endforeach
                             </ul>

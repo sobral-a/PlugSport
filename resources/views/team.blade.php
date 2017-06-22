@@ -19,14 +19,64 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         {{ $team[0]->name }}
-                        @if (Auth::user()->profil == "joueur")
+                        @if (!$team[0]->banned)
                             <div class="btn-group pull-right">
-                                <form class="form-horizontal" role="form" method="POST" action="/teams/{{ $team[0]->id }}">
+                                @if (Auth::user()->profil == "joueur")
+
+                                    @if ($inTeam == true)
+                                        @if ($team[0]->pivot->status == 'waiting')
+                                            <button type="button" class="btn btn-info btn-xs">Waiting</button>
+                                        @else
+                                            @if ($team[0]->pivot->status == 'denied')
+                                                <button type="button" class="btn btn-danger btn-xs">Denied</button>
+                                            @else
+                                                <button type="button" class="btn btn-success btn-xs">Accepted</button>
+                                            @endif
+                                        @endif
+                                    @else
+                                        <div class="btn-group pull-right">
+                                            <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team[0]->id }}/{{ Auth::id() }}">
+                                                {{ csrf_field() }}
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    Candidater
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endif
+                                @endif
+                            </div>
+                        @else
+                            <div class="btn-group pull-right">
+                                <button type="button" class="btn btn-warning btn-xs">Banned</button>
+                            </div>
+                            @if (Auth::user()->isAdmin)
+                                <div class="btn-group pull-right">
+                                    <form class="form-horizontal" role="form" method="POST" action="/teams/{{ $team[0]->id }}">
+                                        {{ csrf_field() }}
+                                        {{ method_field('PATCH') }}
+                                        <button type="submit" class="btn btn-success btn-xs">
+                                            Allow
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        @endif
+                        @if ($inTeam == true)
+                            <div class="btn-group pull-right">
+                                <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team[0]->id }}/{{ Auth::id() }}">
                                     {{ csrf_field() }}
-                                    <button type="submit" class="btn btn btn-success btn-xs">
-                                        Candidater
+                                    {{ method_field('DELETE') }}
+                                    <button type="submit" class="btn btn btn-danger btn-xs">
+                                        Quitter
                                     </button>
                                 </form>
+                            </div>
+                        @endif
+                        @if ($team[0]->sport->number == count($team[0]->players))
+                            <div class="btn-group pull-right">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    Equipe pleine
+                                </button>
                             </div>
                         @endif
                     </div>

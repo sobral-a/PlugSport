@@ -7,6 +7,7 @@ use App\Event;
 use App\Sport;
 use App\User;
 use App\Team;
+use Auth;
 
 
 class TeamsController extends Controller
@@ -66,7 +67,18 @@ class TeamsController extends Controller
     {
         $sports = Sport::all();
         $team = Team::with('user', 'sport', 'players')->where('id', '=', $team->id)->get();
-        return view('team', compact('team', 'sports' ));
+        $user = User::with('inTeams')->where('id', '=', Auth::id())->get();
+        $userTeamsIds = [];
+        foreach ($user->first()->inTeams as $team)
+        {
+            $userTeamsIds[] = $team->id;
+        }
+        $inTeam = false;
+        if (in_array($team->first()->id, $userTeamsIds))
+        {
+            $inTeam = true;
+        }
+        return view('team', compact('team', 'sports', 'inTeam' ));
     }
 
     public function playerTeams(User $user)

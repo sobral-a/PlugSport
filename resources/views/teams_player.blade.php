@@ -30,17 +30,15 @@
                                             <a href="/teams/{{ $team->id }}/view">{{ $team->name }}</a>
                                             @if (!$team->banned)
                                                 <div class="btn-group pull-right">
-                                                    <div class="btn-group pull-right">
-                                                        @if ($team->pivot->status == 'waiting')
-                                                            <button type="button" class="btn btn-info btn-xs">Waiting</button>
+                                                    @if ($team->pivot->status == 'waiting')
+                                                        <button type="button" class="btn btn-info btn-xs">Waiting</button>
+                                                    @else
+                                                        @if ($team->pivot->status == 'denied')
+                                                            <button type="button" class="btn btn-danger btn-xs">Denied</button>
                                                         @else
-                                                            @if ($team->pivot->status == 'denied')
-                                                                <button type="button" class="btn btn-danger btn-xs">Denied</button>
-                                                            @else
-                                                                <button type="button" class="btn btn-success btn-xs">Accepted</button>
-                                                            @endif
+                                                            <button type="button" class="btn btn-success btn-xs">Accepted</button>
                                                         @endif
-                                                    </div>
+                                                    @endif
                                                 </div>
                                             @else
                                                 <div class="btn-group pull-right">
@@ -48,7 +46,7 @@
                                                 </div>
                                             @endif
                                                 <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="/teams/{{ $team->id }}/{{ Auth::id() }}">
+                                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ Auth::id() }}">
                                                         {{ csrf_field() }}
                                                         {{ method_field('DELETE') }}
                                                         <button type="submit" class="btn btn btn-danger btn-xs">
@@ -97,7 +95,7 @@
                                                 </div>
                                             @else
                                                 <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="/teams/{{ $team->id }}/{{ Auth::id() }}">
+                                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ Auth::id() }}">
                                                         {{ csrf_field() }}
                                                         <button type="submit" class="btn btn-success btn-sm">
                                                             Candidater

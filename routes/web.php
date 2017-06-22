@@ -39,8 +39,8 @@ Route::patch('/teams/{team}', 'TeamsController@allowTeam');
 Route::get('/teams/{user}/player', 'TeamsController@playerTeams');
 Route::get('/teams/{team}/view', 'TeamsController@teamView');
 
-Route::delete('/teams/{team}/{user}', 'PlayersController@removeUserTeam');
-Route::post('/teams/{team}/{user}', 'PlayersController@addUserTeam');
+Route::delete('/players/{team}/{user}', 'PlayersController@removeUserTeam');
+Route::post('/players/{team}/{user}', 'PlayersController@addUserTeam');
 
 
 
