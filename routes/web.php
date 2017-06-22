@@ -41,6 +41,12 @@ Route::get('/teams/{team}/view', 'TeamsController@teamView');
 
 Route::delete('/players/{team}/{user}', 'PlayersController@removeUserTeam');
 Route::post('/players/{team}/{user}', 'PlayersController@addUserTeam');
+Route::patch('/players/{team}/{user}/player', 'PlayersController@setPlayer');
+Route::patch('/players/{team}/{user}/denied', 'PlayersController@setDenied');
+
+
+
+
 
 
 
