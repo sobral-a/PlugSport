@@ -45,6 +45,13 @@ Route::patch('/players/{team}/{user}/player', 'PlayersController@setPlayer');
 Route::patch('/players/{team}/{user}/denied', 'PlayersController@setDenied');
 
 
+Route::get('/events' , 'TeamEventsController@all');
+Route::post('/events/join/{event}', 'TeamEventsController@join');
+Route::delete('/events/{event}/{team}', 'TeamEventsController@removeTeam');
+
+Route::patch('/events/{event}/{team}/accept', 'TeamEventsController@acceptTeam');
+Route::patch('/events/{event}/{team}/denied', 'TeamEventsController@deniedTeam');
+
 
 
 

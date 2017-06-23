@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\Sport;
 use App\User;
+use App\Team;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -56,9 +57,12 @@ class EventsController extends Controller
         return back();
     }
 
-    public function eventView(Event $event)
+    public function eventView(Request $request, Event $event)
     {
         $sports = Sport::all();
-        return view('event', compact('event', 'sports' ));
+
+        $user_id = $request->user()->id;
+        $teams = Team::where('user_id', '=', $user_id)->get();
+        return view('event', compact('event', 'sports' , 'teams'));
     }
 }

@@ -59,9 +59,109 @@
                                     </div>
                                 @endif
                             </form>
+                        @if(Auth::user()->profil == 'entraineur' && !Auth::user()->isAdmin)
+
+                            <div class="btn-group pull-right">
+                                <form class="form-vertical" role="form" method="POST" action="/events/join/{{ $event->id }}">
+                                    <select class="form-control" id="team" name="team" value="{{ old('team') }}" required autofocus>
+                                        @foreach($teams as $team)
+                                            <option value="{{ $team->id }}" > {{ $team->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="btn btn-success btn-xs">
+                                        Rejoindre
+                                    </button>
+                                </form>
+                            </div>
+                        @endif
+                        </div>
+                    </div>
+                @if (Auth::user()->profil == 'entraineur')
+                    <div class="panel panel-success">
+                        <div class="panel-heading">Equipes participantes</div>
+                        <div class="panel-body">
+                            <ul>
+                                @foreach($event->teams as $team)
+                                    @if ($team->pivot->status == 'player')
+                                        <li>
+                                            {{ $team->name }}
+                                            @if(Auth::id() == $event->user_id || Auth::user()->isAdmin )
+                                            <div class="btn-group pull-right">
+                                                <form class="form-horizontal" role="form" method="POST" action="/events/{{$event->id}}/{{$team->id}}">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <button type="submit" class="btn btn btn-danger btn-xs">
+                                                        Enlever
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            @endif
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
 
                         </div>
                     </div>
+
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">Equipes candidates</div>
+                        <div class="panel-body">
+                            <ul>
+                                @foreach($event->teams as $team)
+                                    @if ($team->pivot->status == 'denied')
+                                        <li>
+                                            {{ $team->name }}
+                                            @if(Auth::id() == $event->user_id || Auth::user()->isAdmin )
+                                            <div class="btn-group pull-right">
+                                                <form class="form-horizontal" role="form" method="POST" action="/events/{{$event->id}}/{{$team->id}}">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <button type="submit" class="btn btn btn-danger btn-xs">
+                                                        Enlever
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            @endif
+                                        </li>
+                                    @endif
+                                    @if ($team->pivot->status == 'waiting')
+                                        <li>
+                                            {{ $team->name }}
+                                            @if(Auth::id() == $event->user_id || Auth::user()->isAdmin )
+                                            <div class="btn-group pull-right">
+                                                <form class="form-horizontal" role="form" method="POST" action="/events/{{$event->id}}/{{$team->id}}/denied">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('PATCH') }}
+                                                    <button type="submit" class="btn btn btn-danger btn-xs">
+                                                        Refuser
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="btn-group pull-right">
+                                                <form class="form-horizontal" role="form" method="POST" action="/events/{{$event->id}}/{{$team->id}}/accept">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('PATCH') }}
+                                                    <button type="submit" class="btn btn btn-success btn-xs">
+                                                        Accepter
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            @endif
+                                            <div class="btn-group">
+                                                <button class="btn btn-warning btn-xs">
+                                                    En attente
+                                                </button>
+                                            </div>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+
+                        </div>
+                    </div>
+                @endif
 
                 </div>
             </div>
