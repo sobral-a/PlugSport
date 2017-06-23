@@ -51,11 +51,33 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Les évènements de mon équipe</div>
+                    <div class="panel-heading">Les évènements de mes équipes</div>
 
                     <div class="panel-body">
                         <ul class="list-group">
 
+                            @foreach($teams as $team)
+                                {{$team->name}}
+
+                                @foreach($team->events as $event)
+                                <li class="list-group-item">
+                                    <a href="/events/{{ $event->id }}/view">{{ $event->name }}</a>
+                                    @if ($event->pivot->status == 'waiting')
+                                        <div class="btn-group">
+                                            <button class="btn btn-warning btn-xs">
+                                                En attente
+                                            </button>
+                                        </div>
+                                        @elseif($event->pivot->status == 'denied')
+                                        <div class="btn-group">
+                                            <button class="btn btn-warning btn-xs">
+                                                Refusé
+                                            </button>
+                                        </div>
+                                        @endif
+                                </li>
+                                @endforeach
+                            @endforeach
                         </ul>
                     </div>
                 </div>
