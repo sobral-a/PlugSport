@@ -66,17 +66,15 @@ class TeamsController extends Controller
     public function teamView(Team $team)
     {
         $sports = Sport::all();
-        $team = Team::with('user', 'sport', 'players')->where('id', '=', $team->id)->get();
         $user = User::with('inTeams')->where('id', '=', Auth::id())->get();
-        $userTeamsIds = [];
-        foreach ($user->first()->inTeams as $team)
-        {
-            $userTeamsIds[] = $team->id;
-        }
         $inTeam = false;
-        if (in_array($team->first()->id, $userTeamsIds))
+        foreach ($user->first()->inTeams as $userTeam)
         {
-            $inTeam = true;
+            if ($userTeam->id == $team->id) {
+                $team = $userTeam;
+                $inTeam = true;
+                break;
+            }
         }
         return view('team', compact('team', 'sports', 'inTeam' ));
     }

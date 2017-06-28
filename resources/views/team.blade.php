@@ -19,16 +19,16 @@
                 <div class="panel-group">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            {{ $team[0]->name }}
-                            @if (!$team[0]->banned)
+                            {{ $team->name }}
+                            @if (!$team->banned)
                                 <div class="btn-group pull-right">
                                     @if (Auth::user()->profil == "joueur")
 
                                         @if ($inTeam == true)
-                                            @if ($team[0]->pivot->status == 'waiting')
+                                            @if ($team->pivot->status == 'waiting')
                                                 <button type="button" class="btn btn-info btn-xs">Waiting</button>
                                             @else
-                                                @if ($team[0]->pivot->status == 'denied')
+                                                @if ($team->pivot->status == 'denied')
                                                     <button type="button" class="btn btn-danger btn-xs">Denied</button>
                                                 @else
                                                     <button type="button" class="btn btn-success btn-xs">Accepted</button>
@@ -36,7 +36,7 @@
                                             @endif
                                         @else
                                             <div class="btn-group pull-right">
-                                                <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team[0]->id }}/{{ Auth::id() }}">
+                                                <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ Auth::id() }}">
                                                     {{ csrf_field() }}
                                                     <button type="submit" class="btn btn-success btn-sm">
                                                         Candidater
@@ -52,7 +52,7 @@
                                 </div>
                                 @if (Auth::user()->isAdmin)
                                     <div class="btn-group pull-right">
-                                        <form class="form-horizontal" role="form" method="POST" action="/teams/{{ $team[0]->id }}">
+                                        <form class="form-horizontal" role="form" method="POST" action="/teams/{{ $team->id }}">
                                             {{ csrf_field() }}
                                             {{ method_field('PATCH') }}
                                             <button type="submit" class="btn btn-success btn-xs">
@@ -64,7 +64,7 @@
                             @endif
                             @if ($inTeam == true)
                                 <div class="btn-group pull-right">
-                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team[0]->id }}/{{ Auth::id() }}">
+                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ Auth::id() }}">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <button type="submit" class="btn btn btn-danger btn-xs">
@@ -73,7 +73,7 @@
                                     </form>
                                 </div>
                             @endif
-                            @if ($team[0]->sport->number == count($team[0]->players))
+                            @if ($team->sport->number == count($team->players))
                                 <div class="btn-group pull-right">
                                     <button type="submit" class="btn btn-primary btn-sm">
                                         Equipe pleine
@@ -88,11 +88,11 @@
                                 {{ method_field('DELETE') }}
                                 <div class="form-group">
                                     <label for="coach" class="control-label">Entraineur</label>
-                                    <input type="text"  class="form-control" name="coach" readonly="readonly" value="{{ $team[0]->user->name }} {{ $team[0]->user->first_name }}" >
+                                    <input type="text"  class="form-control" name="coach" readonly="readonly" value="{{ $team->user->name }} {{ $team->user->first_name }}" >
                                 </div>
                                 <div class="form-group">
                                     <label for="sport" class="control-label">Sport</label>
-                                    <select class="form-control" id="sport" name="sport" readonly="readonly" value="{{ $team[0]->sport->number }}" >
+                                    <select class="form-control" id="sport" name="sport" readonly="readonly" value="{{ $team->sport->number }}" >
                                         @foreach($sports as $sport)
                                             <option value="{{ $sport->id }}" > {{ $sport->name }}</option>
                                         @endforeach
@@ -100,9 +100,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="number" class="control-label"># Players</label>
-                                    <input type="text" class="form-control" name="teams_number" readonly="readonly" step="1" value="{{ count($team[0]->players) }} / {{  $team[0]->sport->number }}" min="0" max="100">
+                                    <input type="text" class="form-control" name="teams_number" readonly="readonly" step="1" value="{{ count($team->players) }} / {{  $team->sport->number }}" min="0" max="100">
                                 </div>
-                                @if (Auth::user()->isAdmin || Auth::id() == $team[0]->user->id )
+                                @if (Auth::user()->isAdmin || Auth::id() == $team->user->id )
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-danger">
                                             Supprimer
@@ -118,11 +118,11 @@
                                 <div class="panel-heading">Joueurs de votre équipe</div>
                                 <div class="panel-body">
                                     <ul>
-                                        @foreach($team[0]->players as $player)
+                                        @foreach($team->players as $player)
                                             @if ($player->pivot->status == 'player')
                                                 <li>
                                                     {{ $player->first_name }} {{ $player->name }}
-                                                        <form class="form-horizontal btn-group pull-right" role="form" method="POST" action="/players/{{ $team[0]->id }}/{{ $player->id }}">
+                                                        <form class="form-horizontal btn-group pull-right" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}">
                                                             {{ csrf_field() }}
                                                             {{ method_field('DELETE') }}
                                                             <button type="submit" class="btn btn btn-danger btn-xs">
@@ -141,12 +141,12 @@
                             <div class="panel-heading">Joueurs candidats</div>
                             <div class="panel-body">
                                 <ul>
-                                    @foreach($team[0]->players as $player)
+                                    @foreach($team->players as $player)
                                         @if ($player->pivot->status == 'denied')
                                             <li>
                                                 {{ $player->first_name }} {{ $player->name }}
                                                 <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team[0]->id }}/{{ $player->id }}">
+                                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}">
                                                         {{ csrf_field() }}
                                                         {{ method_field('DELETE') }}
                                                         <button type="submit" class="btn btn btn-danger btn-xs">
@@ -160,7 +160,7 @@
                                             <li>
                                                 {{ $player->first_name }} {{ $player->name }}
                                                 <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team[0]->id }}/{{ $player->id }}/denied">
+                                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}/denied">
                                                         {{ csrf_field() }}
                                                         {{ method_field('PATCH') }}
                                                         <button type="submit" class="btn btn btn-danger btn-xs">
@@ -169,7 +169,7 @@
                                                     </form>
                                                 </div>
                                                 <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team[0]->id }}/{{ $player->id }}/player">
+                                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}/player">
                                                         {{ csrf_field() }}
                                                         {{ method_field('PATCH') }}
                                                         <button type="submit" class="btn btn btn-success btn-xs">
