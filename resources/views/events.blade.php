@@ -45,7 +45,6 @@
                 </div>
             </div>
         </div>
-    @endif
 
     <div class="container">
         <div class="row">
@@ -85,7 +84,6 @@
         </div>
     </div>
 
-    @if(Auth::user()->profil == "entraineur")
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
@@ -137,5 +135,31 @@
                 </div>
             </div>
         </div>
+    @elseif(Auth::user()->profil == "joueur")
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Mes évènements</div>
+
+                        <div class="panel-body">
+                            @if (count($events) == 0)
+                                <div class="alert alert-info">
+                                    <strong>Vous n'avez aucun événement de prévu</strong>
+                                </div>
+                            @endif
+                            <ul class="list-group">
+                                @foreach($events as $event)
+                                    <li class="list-group-item">
+                                        <a href="/events/{{ $event->id }}/view">{{ $event->name }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     @endif
 @endsection

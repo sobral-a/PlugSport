@@ -45,10 +45,21 @@ class EventsController extends Controller
 
     public function events(User $user)
     {
-        $sports = Sport::all();
-        $events = $user->events; //->whereDate('date','>=', Carbon::today()->toDateString())
-        //TODO: crér pivot table pour associer une equipe à un event
-        $teams = Team::where('user_id', $user->id)->get();
+        $events = \Illuminate\Database\Eloquent\Collection::make();
+        if ($user->profil == 'joueur') {
+            $inTeamAccepted = $user->inTeamAccepted;
+            foreach ($inTeamAccepted as $team) {
+                foreach ($team->events as $event) {
+                    $events->push($event);
+                }
+            }
+        }
+        else {
+            $sports = Sport::all();
+            $events = $user->events; //->whereDate('date','>=', Carbon::today()->toDateString())
+            $teams = Team::where('user_id', $user->id)->get();
+        }
+
         return view('events', compact('events', 'sports', 'teams'));
     }
 

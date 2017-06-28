@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Team::class, 'user_team')->withPivot('status');
     }
+
+    public function inTeamAccepted()
+    {
+        return $this->belongsToMany(Team::class, 'user_team')->wherePivot('status', 'player');
+    }
 }
