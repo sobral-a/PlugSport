@@ -70,7 +70,8 @@ class TeamsController extends Controller
         $inTeam = false;
         foreach ($user->first()->inTeams as $userTeam)
         {
-            if ($userTeam->id == $team->id) {
+            if ($userTeam->id == $team->id)
+            {
                 $team = $userTeam;
                 $inTeam = true;
                 break;
@@ -81,12 +82,11 @@ class TeamsController extends Controller
 
     public function playerTeams(User $user)
     {
-
         $user = User::with('inTeams')->where('id', '=', $user->id)->get();
         $userTeamsIds = [];
         foreach ($user->first()->inTeams as $team)
         {
-                $userTeamsIds[] = $team->id;
+            $userTeamsIds[] = $team->id;
         }
         $allTeams = Team::with('sport')->whereNotIn('id', $userTeamsIds)->get();
         return view('teams_player', compact('allTeams', 'user' ));

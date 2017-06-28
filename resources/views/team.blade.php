@@ -2,15 +2,15 @@
 
 @section('content')
 
-    <div class="container">
-        @if (count($errors))
+    @if (count($errors))
+        <div class="container alert alert-warning">
             <ul>
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
-        @endif
-    </div>
+        </div>
+    @endif
 
 
     <div class="container">
@@ -73,7 +73,7 @@
                                     </form>
                                 </div>
                             @endif
-                            @if ($team->sport->number == count($team->players))
+                            @if ($team->sport->number == count($team->players->where('pivot.status', 'player')))
                                 <div class="btn-group pull-right">
                                     <button type="submit" class="btn btn-primary btn-sm">
                                         Equipe pleine
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="number" class="control-label"># Players</label>
-                                    <input type="text" class="form-control" name="teams_number" readonly="readonly" step="1" value="{{ count($team->players) }} / {{  $team->sport->number }}" min="0" max="100">
+                                    <input type="text" class="form-control" name="teams_number" readonly="readonly" step="1" value="{{ count($team->players->where('pivot.status', 'player')) }} / {{  $team->sport->number }}" min="0" max="100">
                                 </div>
                                 @if (Auth::user()->isAdmin || Auth::id() == $team->user->id )
                                     <div class="form-group">
@@ -136,59 +136,58 @@
 
                                 </div>
                             </div>
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">Joueurs candidats</div>
+                                <div class="panel-body">
+                                    <ul>
+                                        @foreach($team->players as $player)
+                                            @if ($player->pivot->status == 'denied')
+                                                <li>
+                                                    {{ $player->first_name }} {{ $player->name }}
+                                                    <div class="btn-group pull-right">
+                                                        <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}">
+                                                            {{ csrf_field() }}
+                                                            {{ method_field('DELETE') }}
+                                                            <button type="submit" class="btn btn btn-danger btn-xs">
+                                                                Enlever
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </li>
+                                            @endif
+                                            @if ($player->pivot->status == 'waiting')
+                                                <li>
+                                                    {{ $player->first_name }} {{ $player->name }}
+                                                    <div class="btn-group pull-right">
+                                                        <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}/denied">
+                                                            {{ csrf_field() }}
+                                                            {{ method_field('PATCH') }}
+                                                            <button type="submit" class="btn btn btn-danger btn-xs">
+                                                                Refuser
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="btn-group pull-right">
+                                                        <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}/player">
+                                                            {{ csrf_field() }}
+                                                            {{ method_field('PATCH') }}
+                                                            <button type="submit" class="btn btn btn-success btn-xs">
+                                                                Accepter
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-warning btn-xs">
+                                                            En attente
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
 
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">Joueurs candidats</div>
-                            <div class="panel-body">
-                                <ul>
-                                    @foreach($team->players as $player)
-                                        @if ($player->pivot->status == 'denied')
-                                            <li>
-                                                {{ $player->first_name }} {{ $player->name }}
-                                                <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}">
-                                                        {{ csrf_field() }}
-                                                        {{ method_field('DELETE') }}
-                                                        <button type="submit" class="btn btn btn-danger btn-xs">
-                                                            Enlever
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </li>
-                                        @endif
-                                        @if ($player->pivot->status == 'waiting')
-                                            <li>
-                                                {{ $player->first_name }} {{ $player->name }}
-                                                <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}/denied">
-                                                        {{ csrf_field() }}
-                                                        {{ method_field('PATCH') }}
-                                                        <button type="submit" class="btn btn btn-danger btn-xs">
-                                                            Refuser
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                                <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}/player">
-                                                        {{ csrf_field() }}
-                                                        {{ method_field('PATCH') }}
-                                                        <button type="submit" class="btn btn btn-success btn-xs">
-                                                            Accepter
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-warning btn-xs">
-                                                        En attente
-                                                    </button>
-                                                </div>
-                                            </li>
-                                        @endif
-                                    @endforeach
-                                </ul>
-
+                                </div>
                             </div>
-                        </div>
                          @endif
                     </div>
                 </div>

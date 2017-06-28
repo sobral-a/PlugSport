@@ -18,10 +18,7 @@ class PlayersController extends Controller
 
     public function addUserTeam(Team $team, User $user)
     {
-        //TODO:test si nombre de personnes qui sont dans l'équipe est atteint
-
         $nb = Sport::find($team->sport_id)->number;
-        //TODO: check only the players (status)
         $count = 0;
         foreach ($team->players as $p)
         {
@@ -34,14 +31,15 @@ class PlayersController extends Controller
         {
             $team->players()->attach($user);
         }
-        //else error
+        else
+        {
+            $errors['full_team']= 'L\'équipe est pleine, il n\'est plus possible de candidater';
+        }
         return back();
     }
 
     public function setDenied(Team $team, User $user)
     {
-        //test si nombre de personnes est atteint
-        //TODO: check only the players (status)
         $player = $team->players()->where('id', $user->id)->get()->first();
         $player->pivot->status = 'denied';
         $player->pivot->save();
@@ -50,9 +48,7 @@ class PlayersController extends Controller
 
     public function setPlayer(Team $team, User $user)
     {
-        //TODO:test si nombre de personnes qui sont dans l'équipe est atteint
         $nb = Sport::find($team->sport_id)->number;
-        //TODO: check only the players (status)
         $count = 0;
         foreach ($team->players as $p)
         {
@@ -68,8 +64,11 @@ class PlayersController extends Controller
             $player->pivot->status = 'player';
             $player->pivot->save();
         }
-        //else error
-        return back();
+        else
+        {
+            $errors['full_team']= 'L\'équipe est pleine, vous ne pouvez plus accepter de joueur';
+        }
+        return back()->withErrors($errors);
     }
 
 }

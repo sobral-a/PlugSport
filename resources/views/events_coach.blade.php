@@ -2,15 +2,15 @@
 
 @section('content')
 
-    <div class="container">
-        @if (count($errors))
+    @if (count($errors))
+        <div class="container alert alert-warning">
             <ul>
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
-        @endif
-    </div>
+        </div>
+    @endif
     @if(Auth::user()->profil == 'entraineur' && !Auth::user()->isAdmin)
         <div class="container">
             <div class="row">
