@@ -34,7 +34,7 @@
                                                     <button type="button" class="btn btn-success btn-xs">Accepted</button>
                                                 @endif
                                             @endif
-                                        @else
+                                        @elseif ($team->sport->number > count($team->players->where('pivot.status', 'player')))
                                             <div class="btn-group pull-right">
                                                 <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ Auth::id() }}">
                                                     {{ csrf_field() }}

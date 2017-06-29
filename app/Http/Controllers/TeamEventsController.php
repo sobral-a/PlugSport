@@ -36,10 +36,22 @@ class TeamEventsController extends Controller
         if ($count < $nb)
         {
             $team = Team::find($request->team);
-            $event->teams()->attach($team);
+            $event_already_happening = $team->events()->whereDate('date', '=', $event->date)->get();
+            if ($event_already_happening->count() == 1) {
+                 $errors['event_same_date']= 'Cette équipe participe déjà à un événement à cette date là.';
+            }
+            else {
+                $event->teams()->attach($team);
+            }
         }
-        //else error
-        return back();
+        else
+        {
+            $errors['full_event']= 'L\'événement est plein, il n\'est plus possible de candidater';
+        }
+        if (isset($errors))
+            return back()->withErrors($errors);
+        else
+            return back();
     }
 
     public function removeTeam(Event $event, Team $team)
@@ -67,9 +79,14 @@ class TeamEventsController extends Controller
             $team = $event->teams()->where('id', $team->id)->get()->first();
             $team->pivot->status = 'player';
             $team->pivot->save();
+        } else
+        {
+            $errors['full_event']= 'L\'événement est plein, vous ne pouvez plus accepter d\'équipe';
         }
-        //else error
-        return back();
+        if (isset($errors))
+            return back()->withErrors($errors);
+        else
+            return back();
     }
 
     public function deniedTeam(Event $event, Team $team)

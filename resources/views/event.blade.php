@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
     @if (count($errors))
         <div class="container alert alert-warning">
             <ul>

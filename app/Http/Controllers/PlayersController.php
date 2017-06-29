@@ -35,7 +35,10 @@ class PlayersController extends Controller
         {
             $errors['full_team']= 'L\'équipe est pleine, il n\'est plus possible de candidater';
         }
-        return back();
+        if (isset($errors))
+            return back()->withErrors($errors);
+        else
+            return back();
     }
 
     public function setDenied(Team $team, User $user)
@@ -68,7 +71,10 @@ class PlayersController extends Controller
         {
             $errors['full_team']= 'L\'équipe est pleine, vous ne pouvez plus accepter de joueur';
         }
-        return back()->withErrors($errors);
+        if (isset($errors))
+            return back()->withErrors($errors);
+        else
+            return back();
     }
 
 }
