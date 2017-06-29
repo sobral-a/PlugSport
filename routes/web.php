@@ -52,6 +52,7 @@ Route::delete('/events/{event}/{team}', 'TeamEventsController@removeTeam');
 Route::patch('/events/{event}/{team}/accept', 'TeamEventsController@acceptTeam');
 Route::patch('/events/{event}/{team}/denied', 'TeamEventsController@deniedTeam');
 
+Route::get('/mail/notif/{team}/{event}', 'MailController@sendemail');
 
 
 
