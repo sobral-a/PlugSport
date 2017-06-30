@@ -24,7 +24,7 @@ class CreateAvailabilityTable extends Migration
 
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')
-                ->on('user')->onDelete('cascade');
+                ->on('users')->onDelete('cascade');
 
             $table->enum('status', ['waiting', 'unavailable', 'available'])->default('waiting');
         });
