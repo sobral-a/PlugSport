@@ -10,6 +10,13 @@
             </ul>
         </div>
     @endif
+    @if (\Session::has('success'))
+        <div class="container alert alert-success">
+            <ul>
+                <li>{!! \Session::get('success') !!}</li>
+            </ul>
+        </div>
+    @endif
 
 
     <div class="container">
@@ -86,6 +93,12 @@
                                         <li>
                                             {{ $team->name }}
                                             @if(Auth::id() == $event->user_id || Auth::id() == $team->user_id || Auth::user()->isAdmin )
+                                                <form class="form-horizontal btn-group" role="form" method="POST" action="/mail/notif/{{$team->id}}/{{$event->id}}">
+                                                    {{ csrf_field() }}
+                                                    <button type="submit" class="btn btn btn-success btn-xs">
+                                                        Notifier mes joueurs par mail
+                                                    </button>
+                                                </form>
                                                 <form class="form-horizontal btn-group pull-right" role="form" method="POST" action="/events/{{$event->id}}/{{$team->id}}">
                                                     {{ csrf_field() }}
                                                     {{ method_field('DELETE') }}

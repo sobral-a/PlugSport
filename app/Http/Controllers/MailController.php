@@ -17,9 +17,9 @@ class MailController extends Controller
         $event_date = $event->date;
 
 
-        Mail::to($request->user())->send(new NotifByCoach($team_name, $event_name, $event_date));
-
-        return "Your email has been sent successfully";
+        Mail::to($team->players)->send(new NotifByCoach($team_name, $event_name, $event_date));
+        return back()->with('success', 'Un mail a été envoyé à tous les joueurs de l\'équipe.');
+        //return back();
 
     }
 }

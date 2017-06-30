@@ -37,7 +37,7 @@ class NotifByCoach extends Mailable
     {
 
         $test = $this->team_name;
-        return $this->subject('Hello you')->view('emails.notif_coach')->with([
+        return $this->subject('Notification événement')->view('emails.notif_coach')->with([
             'team_name' => $this->team_name,
             'event_name' => $this->event_name,
             'event_date' => $this->event_date
