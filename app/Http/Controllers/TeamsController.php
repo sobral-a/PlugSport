@@ -77,7 +77,14 @@ class TeamsController extends Controller
                 break;
             }
         }
-        return view('team', compact('team', 'sports', 'inTeam' ));
+        $teamAvailables = Team::with('availabilities')->where('id', '=', $team->id)->get();
+        $teamAvailables = $teamAvailables->map(function ($team) {
+            return collect($team->toArray())
+                ->only(['availabilities'])
+                ->all();
+        });
+
+        return view('team', compact('team', 'sports', 'inTeam', 'teamAvailables' ));
     }
 
     public function playerTeams(User $user)
