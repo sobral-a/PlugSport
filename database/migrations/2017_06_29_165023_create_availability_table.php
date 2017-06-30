@@ -14,6 +14,9 @@ class CreateAvailabilityTable extends Migration
     public function up()
     {
         Schema::create('availability', function (Blueprint $table) {
+
+            $table->increments('id');
+
             $table->integer('team_id')->unsigned()->index();
             $table->foreign('team_id')->references('id')
                 ->on('teams')->onDelete('cascade');
