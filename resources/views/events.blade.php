@@ -57,7 +57,11 @@
 
                                 @foreach($teams as $team)
                                     @if (count($team->events) > 0)
-                                        <a href="/teams/{{ $team->id }}/view">{{$team->name}}</a>
+                                        <a href="/teams/{{ $team->id }}/view">
+                                            <button type="submit" class="btn btn-sm">
+                                                {{$team->name}}
+                                            </button>
+                                        </a>
 
                                         @foreach($team->events as $event)
                                             <li class="list-group-item">
@@ -68,13 +72,23 @@
                                                             En attente
                                                         </button>
                                                     </div>
-                                                    @elseif($event->pivot->status == 'denied')
+                                                @elseif($event->pivot->status == 'denied')
                                                     <div class="btn-group">
                                                         <button class="btn btn-warning btn-xs">
                                                             Refusé
                                                         </button>
                                                     </div>
-                                                    @endif
+                                                @endif
+                                                @if ($event->pivot->status == 'player')
+                                                    <div class="btn-group pull-right">
+                                                        <form class="form-horizontal" role="form" method="POST" action="checkerDisponi">
+                                                            {{ csrf_field() }}
+                                                            <button type="submit" class="btn btn btn-success btn-xs">
+                                                                Vérifier la disponibilité de l'équipe
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                @endif
                                             </li>
                                         @endforeach
                                     @else

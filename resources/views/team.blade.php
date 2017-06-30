@@ -122,13 +122,13 @@
                                             @if ($player->pivot->status == 'player')
                                                 <li>
                                                     {{ $player->first_name }} {{ $player->name }}
-                                                        <form class="form-horizontal btn-group pull-right" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}">
-                                                            {{ csrf_field() }}
-                                                            {{ method_field('DELETE') }}
-                                                            <button type="submit" class="btn btn btn-danger btn-xs">
-                                                                Enlever
-                                                            </button>
-                                                        </form>
+                                                    <form class="form-horizontal btn-group pull-right" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}">
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('DELETE') }}
+                                                        <button type="submit" class="btn btn btn-danger btn-xs">
+                                                            Enlever
+                                                        </button>
+                                                    </form>
                                                 </li>
                                             @endif
                                         @endforeach
