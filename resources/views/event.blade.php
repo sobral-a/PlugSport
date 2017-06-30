@@ -140,16 +140,6 @@
                                         <li>
                                             {{ $team->name }}
                                             @if(Auth::id() == $team->user_id)
-                                                <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="/events/{{$event->id}}/{{$team->id}}">
-                                                        {{ csrf_field() }}
-                                                        {{ method_field('DELETE') }}
-                                                        <button type="submit" class="btn btn btn-danger btn-xs">
-                                                            Enlever
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            @elseif(Auth::id() == $event->user_id || Auth::user()->isAdmin )
                                             <div class="btn-group pull-right">
                                                 <form class="form-horizontal" role="form" method="POST" action="/events/{{$event->id}}/{{$team->id}}/denied">
                                                     {{ csrf_field() }}

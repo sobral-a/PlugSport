@@ -13,6 +13,7 @@ class User extends Authenticatable
     public $timestamps = false;
     protected $casts = [
         'isAdmin' => 'boolean',
+        'wantsRappel' => 'boolean'
     ];
 
     /**

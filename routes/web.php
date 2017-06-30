@@ -54,7 +54,11 @@ Route::patch('/events/{event}/{team}/denied', 'TeamEventsController@deniedTeam')
 
 Route::post('/mail/notif/{team}/{event}', 'MailController@sendemail');
 
-Route::get('/availability', 'AvailabilitiesController@teamDisponibility');;
+Route::get('/availability', 'AvailabilitiesController@teamDisponibility');
+
+
+Route::get('/profile' , 'ProfileController@profile');
+Route::post('/profile/rappel' , 'ProfileController@updateRappel');
 
 
 
