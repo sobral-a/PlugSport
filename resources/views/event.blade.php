@@ -87,10 +87,10 @@
                     <div class="panel panel-success">
                         <div class="panel-heading">Equipes participantes</div>
                         <div class="panel-body">
-                            <ul>
+                            <ul class="list-group">
                                 @foreach($event->teams as $team)
                                     @if ($team->pivot->status == 'player')
-                                        <li>
+                                        <li class="list-group-item">
                                             {{ $team->name }}
                                             @if(Auth::id() == $event->user_id || Auth::id() == $team->user_id || Auth::user()->isAdmin )
                                                 <form class="form-horizontal btn-group" role="form" method="POST" action="/mail/notif/{{$team->id}}/{{$event->id}}">
@@ -118,10 +118,10 @@
                     <div class="panel panel-warning">
                         <div class="panel-heading">Equipes candidates</div>
                         <div class="panel-body">
-                            <ul>
+                            <ul class="list-group">
                                 @foreach($event->teams as $team)
                                     @if ($team->pivot->status == 'denied')
-                                        <li>
+                                        <li class="list-group-item">
                                             {{ $team->name }}
                                             @if(Auth::id() == $event->user_id || Auth::id() == $team->user_id || Auth::user()->isAdmin )
                                             <div class="btn-group pull-right">
@@ -137,7 +137,7 @@
                                         </li>
                                     @endif
                                     @if ($team->pivot->status == 'waiting')
-                                        <li>
+                                        <li class="list-group-item">
                                             {{ $team->name }}
                                             @if(Auth::id() == $team->user_id)
                                             <div class="btn-group pull-right">

@@ -71,9 +71,9 @@
                                     <div id="collapse1" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             @if (!$team->banned)
-                                                <ul>
+                                                <ul class="list-group">
                                                     @foreach($availabilities->where('event_id', $event->id)->where('team_id', $team->id) as $av)
-                                                        <li>
+                                                        <li class="list-group-item">
                                                             {{ $av->user->first_name }} {{ $av->user->name }}
                                                             @if ($av->status == 'waiting')
                                                                 <button type="button" class="btn btn-info btn-xs">En attente de réponse</button>

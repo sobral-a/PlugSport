@@ -26,12 +26,12 @@
 
                                         @if ($inTeam == true)
                                             @if ($team->pivot->status == 'waiting')
-                                                <button type="button" class="btn btn-info btn-xs">Waiting</button>
+                                                <button type="button" class="btn btn-info btn-xs">En attente</button>
                                             @else
                                                 @if ($team->pivot->status == 'denied')
-                                                    <button type="button" class="btn btn-danger btn-xs">Denied</button>
+                                                    <button type="button" class="btn btn-danger btn-xs">Refusé</button>
                                                 @else
-                                                    <button type="button" class="btn btn-success btn-xs">Accepted</button>
+                                                    <button type="button" class="btn btn-success btn-xs">Accepté</button>
                                                 @endif
                                             @endif
                                         @elseif ($team->sport->number > count($team->players->where('pivot.status', 'player')))
@@ -139,10 +139,10 @@
                             <div class="panel panel-warning">
                                 <div class="panel-heading">Joueurs candidats</div>
                                 <div class="panel-body">
-                                    <ul>
+                                    <ul class="list-group">
                                         @foreach($team->players as $player)
                                             @if ($player->pivot->status == 'denied')
-                                                <li>
+                                                <li class="list-group-item">
                                                     {{ $player->first_name }} {{ $player->name }}
                                                     <div class="btn-group pull-right">
                                                         <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}">
@@ -156,7 +156,7 @@
                                                 </li>
                                             @endif
                                             @if ($player->pivot->status == 'waiting')
-                                                <li>
+                                                <li class="list-group-item">
                                                     {{ $player->first_name }} {{ $player->name }}
                                                     <div class="btn-group pull-right">
                                                         <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}/denied">

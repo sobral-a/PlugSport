@@ -9,7 +9,7 @@ use App\User;
 use App\Event;
 
 use Auth;
-
+use Illuminate\View\View;
 
 
 class AvailabilitiesController extends Controller
@@ -17,7 +17,7 @@ class AvailabilitiesController extends Controller
     public function availability()
     {
         $teams = Team::with('events')->where('user_id', '=', Auth::id())->get();
-        $availabilities = Availability::with('user', 'event')->get();
+        $availabilities = Availability::with('user')->get();
         return view('availability', compact('teams', 'availabilities'));
     }
 
@@ -32,5 +32,11 @@ class AvailabilitiesController extends Controller
             $av->save();
         }
         return back();
+    }
+
+    public function playerAvailabilities()
+    {
+        $availabilities = Availability::with('user', 'event', 'team')->where('user_id', Auth::id())->get();
+        return view('availability_player', compact('availabilities'));
     }
 }
