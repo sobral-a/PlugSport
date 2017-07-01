@@ -42,7 +42,7 @@
                                                 </div>
                                             @else
                                                 <div class="btn-group pull-right">
-                                                    <button type="button" class="btn btn-warning btn-xs">Banned</button>
+                                                    <button type="button" class="btn btn-warning btn-xs">Bannie</button>
                                                 </div>
                                             @endif
                                                 <div class="btn-group pull-right">

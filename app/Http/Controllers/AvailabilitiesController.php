@@ -14,7 +14,7 @@ use Auth;
 
 class AvailabilitiesController extends Controller
 {
-    public function teamDisponibility()
+    public function availability()
     {
 
         $teams = Team::with('events')->where('user_id', '=', Auth::id())->get();

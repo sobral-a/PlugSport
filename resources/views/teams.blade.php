@@ -50,7 +50,7 @@
                                                 </div>
                                              @else
                                                 <div class="btn-group pull-right">
-                                                    <button type="button" class="btn btn-warning btn-xs">Banned</button>
+                                                    <button type="button" class="btn btn-warning btn-xs">Bannie</button>
                                                 </div>
                                                 @if (Auth::user()->isAdmin)
                                                     <div class="btn-group pull-right">
@@ -121,14 +121,14 @@
                                                 </div>
                                             @else
                                                 <div class="btn-group pull-right">
-                                                    <button type="button" class="btn btn-warning btn-xs">Banned</button>
+                                                    <button type="button" class="btn btn-warning btn-xs">Bannie</button>
                                                 </div>
                                                 <div class="btn-group pull-right">
                                                     <form class="form-horizontal" role="form" method="POST" action="/teams/{{ $team->id }}">
                                                         {{ csrf_field() }}
                                                         {{ method_field('PATCH') }}
                                                         <button type="submit" class="btn btn-success btn-xs">
-                                                            Allow
+                                                            Accepter
                                                         </button>
                                                     </form>
                                                 </div>
