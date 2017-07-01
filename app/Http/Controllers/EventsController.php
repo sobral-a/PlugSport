@@ -6,6 +6,8 @@ use App\Event;
 use App\Sport;
 use App\User;
 use App\Team;
+use App\Availability;
+
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -59,8 +61,9 @@ class EventsController extends Controller
             $events = $user->events; //->whereDate('date','>=', Carbon::today()->toDateString())
             $teams = Team::where('user_id', $user->id)->get();
         }
+        $availabilities = Availability::all();
 
-        return view('events', compact('events', 'sports', 'teams'));
+        return view('events', compact('events', 'sports', 'teams', 'availabilities'));
     }
 
     public function removeEvent(Event $event)

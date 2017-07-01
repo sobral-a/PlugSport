@@ -60,12 +60,5 @@ Route::post('/mail/notif/{team}/{event}', 'MailController@sendemail');
 
 Route::get('/profile' , 'ProfileController@profile');
 Route::post('/profile/rappel' , 'ProfileController@updateRappel');
-Route::get('/availability', 'AvailabilitiesController@availability');;
-
-
-
-
-
-
-
-
+Route::get('/availability', 'AvailabilitiesController@availability');
+Route::post('/availability/{team}/{event}', 'AvailabilitiesController@checkTeamAvailability');

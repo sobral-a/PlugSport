@@ -11,7 +11,7 @@ class Availability extends Model
      *
      * @var array
      */
-
+    public $timestamps = false;
     protected $table = 'availability';
 
     protected $fillable = [
