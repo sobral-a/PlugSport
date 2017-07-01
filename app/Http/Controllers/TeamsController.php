@@ -28,12 +28,6 @@ class TeamsController extends Controller
         return back();
     }
 
-    public function teamsAdmin()
-    {
-        $sports = Sport::all();
-        $teams = Team::all(); //->whereDate('date','>=', Carbon::today()->toDateString())
-        return view('events_admin', compact('teams', 'sports' ));
-    }
 
     public function teams(User $user)
     {

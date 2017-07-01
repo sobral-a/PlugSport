@@ -41,7 +41,7 @@ class HomeController extends Controller
 
             return view('home', compact('events', 'allTeams'));
         }
-        else if ($user->profil == 'coach') {
+        else if ($user->profil == 'entraineur') {
             $events = $user->events; //->whereDate('date','>=', Carbon::today()->toDateString())
             $teams = Team::where('user_id', $user->id)->get();
 

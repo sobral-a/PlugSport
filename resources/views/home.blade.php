@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 @if(Auth::user()->isAdmin)
     <!-- All events -->
     <div class="container">
