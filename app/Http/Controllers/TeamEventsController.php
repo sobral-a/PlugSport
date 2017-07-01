@@ -5,17 +5,33 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\Team;
+use App\Sport;
 use Illuminate\Http\Request;
 
 
 class TeamEventsController extends Controller
 {
     //TODO: Handle the dates when a team is going to be in two different events
-    public function all(Request $request) {
+    public function all() {
+        $sports = Sport::all();
         $events = Event::all();
-        $user_id = $request->user()->id;
-        $teams = Team::where('user_id', '=', $user_id)->get();
-        return view('events_coach', compact('events' , 'teams'));
+        return view('events_coach', compact('events' , 'teams', 'sports'));
+    }
+
+    public function filter(Request $request) {
+
+        $this->validate($request, [
+            'sport'        => 'required|integer'
+        ]);
+        $filter = $request->sport;
+        if ($filter == 0) {
+            $events = Event::all();
+        }
+        else {
+           $events = Event::where('sport_id', $filter)->get();
+        }
+        $sports = Sport::all();
+        return view('events_coach', compact('events' , 'teams', 'sports', 'filter'));
     }
 
     public function join(Request $request, Event $event) {

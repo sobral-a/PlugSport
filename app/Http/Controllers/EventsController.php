@@ -77,4 +77,7 @@ class EventsController extends Controller
         $teams = Team::where('user_id', '=', $user_id)->get();
         return view('event', compact('event', 'sports' , 'teams'));
     }
+
+
+
 }

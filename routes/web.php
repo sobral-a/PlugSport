@@ -49,6 +49,8 @@ Route::get('/events' , 'TeamEventsController@all');
 Route::post('/events/join/{event}', 'TeamEventsController@join');
 Route::delete('/events/{event}/{team}', 'TeamEventsController@removeTeam');
 
+Route::post('/search', 'TeamEventsController@filter');
+
 Route::patch('/events/{event}/{team}/accept', 'TeamEventsController@acceptTeam');
 Route::patch('/events/{event}/{team}/denied', 'TeamEventsController@deniedTeam');
 

@@ -18,7 +18,6 @@
                         <div class="panel-heading">Configuration des rappels</div>
 
                         <div class="panel-body">
-                            <div class="">
                                 <form class="form-vertical" role="form" method="POST" action="/profile/rappel">
                                     {{ csrf_field() }}
                                     Autoriser les mails de rappel du coach
@@ -31,7 +30,6 @@
                                         Sauvegarder
                                     </button>
                                 </form>
-                            </div>
                         </div>
                     </div>
                 </div>
