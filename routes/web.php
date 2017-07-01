@@ -61,3 +61,8 @@ Route::post('/profile/rappel' , 'ProfileController@updateRappel');
 Route::get('/availability', 'AvailabilitiesController@availability');
 Route::post('/availability/{team}/{event}', 'AvailabilitiesController@checkTeamAvailability');
 Route::get('/availability/player', 'AvailabilitiesController@playerAvailabilities');
+Route::patch('/availability/{av}/av', 'AvailabilitiesController@setAvailable');
+Route::patch('/availability/{av}/unav', 'AvailabilitiesController@setUnavailable');
+
+
+

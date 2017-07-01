@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="panel panel-primary">
-                                <div class="panel-heading">Demandes de disponibilité en attente</div>
+                                <div class="panel-heading">Demandes de disponibilité <strong>en attente</strong></div>
 
                                 <div class="panel-body">
                                     @if (count($availabilities->where('status', 'waiting')) == 0)
@@ -36,7 +36,7 @@
                                                 @if (!$av->team->banned)
                                                      - Êtes-vous disponible pour l'evènement <a href="/events/{{ $av->event->id }}/view">{{ $av->event->name }}</a> qui aura lieu <?php \Carbon\Carbon::setLocale('fr'); ?>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $av->event->date)->diffForHumans() }} ?
                                                     <div class="btn-group pull-right">
-                                                        <form class="form-horizontal" role="form" method="POST" action="#">
+                                                        <form class="form-horizontal" role="form" method="POST" action="/availability/{{ $av->id }}/av">
                                                             {{ csrf_field() }}
                                                             {{ method_field('PATCH') }}
                                                             <button type="submit" class="btn btn btn-success btn-xs">
@@ -45,7 +45,7 @@
                                                         </form>
                                                     </div>
                                                     <div class="btn-group pull-right">
-                                                        <form class="form-horizontal" role="form" method="POST" action="#">
+                                                        <form class="form-horizontal" role="form" method="POST" action="/availability/{{ $av->id }}/unav">
                                                             {{ csrf_field() }}
                                                             {{ method_field('PATCH') }}
                                                             <button type="submit" class="btn btn btn-danger btn-xs">
@@ -75,7 +75,7 @@
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <div class="panel panel-success">
-                            <div class="panel-heading">Demandes de disponibilité acceptées</div>
+                            <div class="panel-heading">Demandes de disponibilité <strong>acceptées</strong></div>
 
                             <div class="panel-body">
                                 @if (count($availabilities->where('status', 'available')) == 0)
@@ -93,7 +93,7 @@
                                             @if (!$av->team->banned)
                                                 -  <a href="/events/{{ $av->event->id }}/view">{{ $av->event->name }}</a> qui aura lieu <?php \Carbon\Carbon::setLocale('fr'); ?>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $av->event->date)->diffForHumans() }}
                                                 <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="#">
+                                                    <form class="form-horizontal" role="form" method="POST" action="/availability/{{ $av->id }}/unav">
                                                         {{ csrf_field() }}
                                                         {{ method_field('PATCH') }}
                                                         <button type="submit" class="btn btn btn-danger btn-xs">
@@ -122,7 +122,7 @@
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
                         <div class="panel panel-warning">
-                            <div class="panel-heading">Demandes de disponibilité refusées</div>
+                            <div class="panel-heading">Demandes de disponibilité <strong>refusées</strong></div>
 
                             <div class="panel-body">
                                 @if (count($availabilities->where('status', 'unavailable')) == 0)
@@ -140,7 +140,7 @@
                                             @if (!$av->team->banned)
                                                 -  <a href="/events/{{ $av->event->id }}/view">{{ $av->event->name }}</a> qui aura lieu <?php \Carbon\Carbon::setLocale('fr'); ?>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $av->event->date)->diffForHumans() }}
                                                 <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="#">
+                                                    <form class="form-horizontal" role="form" method="POST" action="/availability/{{ $av->id }}/av">
                                                         {{ csrf_field() }}
                                                         {{ method_field('PATCH') }}
                                                         <button type="submit" class="btn btn btn-success btn-xs">

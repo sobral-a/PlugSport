@@ -39,4 +39,19 @@ class AvailabilitiesController extends Controller
         $availabilities = Availability::with('user', 'event', 'team')->where('user_id', Auth::id())->get();
         return view('availability_player', compact('availabilities'));
     }
+
+    public function setAvailable(Availability $av)
+    {
+        $av->status = "available";
+        $av->save();
+        return back();
+    }
+
+    public function setUnavailable(Availability $av)
+    {
+        $av->status = "unavailable";
+        $av->save();
+        return back();
+    }
+
 }
