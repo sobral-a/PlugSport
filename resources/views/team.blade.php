@@ -75,7 +75,7 @@
                             @endif
                             @if ($team->sport->number == count($team->players->where('pivot.status', 'player')))
                                 <div class="btn-group pull-right">
-                                    <button type="submit" class="btn btn-primary btn-sm">
+                                    <button type="submit" class="btn btn-primary btn-xs">
                                         Equipe pleine
                                     </button>
                                 </div>

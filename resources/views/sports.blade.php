@@ -23,9 +23,15 @@
                         @foreach($sports as $sport)
                             <li class="list-group-item">
                                 {{ $sport->name }}
-                                <button class="btn btn-sm" type="button">
-                                    <span class="badge">{{ $sport->number }}</span>  joueurs par équipe
-                                </button>
+                                @if($sport->number == 0 || $sport->number == 1 )
+                                    <button class="btn btn-xs" type="button">
+                                        <span class="badge">{{ $sport->number }}</span>  joueur par équipe
+                                    </button>
+                                @else
+                                    <button class="btn btn-xs" type="button">
+                                        <span class="badge">{{ $sport->number }}</span>  joueurs par équipe
+                                    </button>
+                                @endif
                                 <div class="btn-group pull-right">
                                     <form class="form-horizontal" role="form" method="POST" action="/sports/{{ $sport->id }}">
                                         {{ csrf_field() }}

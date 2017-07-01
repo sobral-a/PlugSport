@@ -51,9 +51,6 @@
                                                     @endif
                                                 </div>
                                             @else
-                                                <div class="btn-group pull-right">
-                                                    <button type="button" class="btn btn-warning btn-xs">Bannie</button>
-                                                </div>
                                                 @if (Auth::user()->isAdmin)
                                                     <div class="btn-group pull-right">
                                                         <form class="form-horizontal" role="form" method="POST" action="/teams/{{ $team->id }}">
@@ -65,6 +62,9 @@
                                                         </form>
                                                     </div>
                                                 @endif
+                                                <div class="btn-group pull-right">
+                                                    <button type="button" class="btn btn-warning btn-xs">Equipe bannie</button>
+                                                </div>
                                             @endif
                                         </h4>
                                     </div>
@@ -76,12 +76,12 @@
                                                         <li>
                                                             {{ $av->user->first_name }} {{ $av->user->name }}
                                                             @if ($av->status == 'waiting')
-                                                                <button type="button" class="btn btn-info btn-xs">{{ $av->status }}</button>
+                                                                <button type="button" class="btn btn-info btn-xs">En attente de réponse</button>
                                                             @else
                                                                 @if ($av->status == 'unavailable')
-                                                                    <button type="button" class="btn btn-danger btn-xs">{{ $av->status }}</button>
+                                                                    <button type="button" class="btn btn-danger btn-xs">Indisponible</button>
                                                                 @else
-                                                                    <button type="button" class="btn btn-success btn-xs">{{ $av->status }}</button>
+                                                                    <button type="button" class="btn btn-success btn-xs">Disponible</button>
                                                                 @endif
                                                             @endif
                                                             <form class="form-horizontal btn-group pull-right" role="form" method="POST" action="/players/{{ $team->id }}/{{ $av->user->id }}">
