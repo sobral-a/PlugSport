@@ -47,6 +47,7 @@
                             <li><a href="{{ route('register') }}">S'inscrire</a></li>
                         @else
                             @if (Auth::user()->isAdmin)
+                                <li><a href="/events">Tous les évènements</a></li>
                                 <li><a href="{{ route('sports') }}">Sports</a></li>
                                 <li><a href="{{ route('eventsAdmin') }}">Evènements</a></li>
                                 <li><a href="/teams/{{  Auth::id() }}">Equipes</a></li>
@@ -58,7 +59,7 @@
                                     <li><a href="/profile">Profile</a></li>
                                 @endif
                             @if(Auth::user()->profil == 'entraineur' && !Auth::user()->isAdmin)
-                                <li><a href="/events">Rechercher évènements</a></li>
+                                <li><a href="/events">Tous les évènements</a></li>
                                 <li><a href="/events/{{ Auth::id() }}">Mes évènements</a></li>
                                 <li><a href="/teams/{{  Auth::id() }}">Equipes</a></li>
                             @endif
