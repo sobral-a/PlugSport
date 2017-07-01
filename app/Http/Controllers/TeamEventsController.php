@@ -15,7 +15,7 @@ class TeamEventsController extends Controller
     public function all() {
         $sports = Sport::all();
         $events = Event::all();
-        return view('events_coach', compact('events' , 'teams', 'sports'));
+        return view('events_all', compact('events' , 'teams', 'sports'));
     }
 
     public function filter(Request $request) {
@@ -31,7 +31,7 @@ class TeamEventsController extends Controller
            $events = Event::where('sport_id', $filter)->get();
         }
         $sports = Sport::all();
-        return view('events_coach', compact('events' , 'teams', 'sports', 'filter'));
+        return view('events_all', compact('events' , 'teams', 'sports', 'filter'));
     }
 
     public function join(Request $request, Event $event) {
