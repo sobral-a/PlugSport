@@ -52,6 +52,7 @@
                                 <li><a href="{{ route('eventsAdmin') }}">Evènements</a></li>
                                 <li><a href="/teams/{{  Auth::id() }}">Equipes</a></li>
                                 <li><a href="/availability">Disponibilités</a></li>
+                                <li><a href="/profile">Profile</a></li>
                             @endif
                             @if (Auth::user()->profil == 'joueur')
                                  <li><a href="/events/{{ Auth::id() }}">Mes évènements</a></li>
@@ -64,6 +65,7 @@
                                 <li><a href="/events/{{ Auth::id() }}">Mes évènements</a></li>
                                 <li><a href="/teams/{{  Auth::id() }}">Equipes</a></li>
                                 <li><a href="/availability">Disponibilités</a></li>
+                                    <li><a href="/profile">Profile</a></li>
                             @endif
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
