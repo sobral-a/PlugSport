@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Event;
+use App\Availability;
 use App\Sport;
 use App\User;
 use App\Team;
@@ -39,13 +40,16 @@ class HomeController extends Controller
             $events = Event::all();
             $allTeams = Team::all();
 
+
             return view('home', compact('events', 'allTeams'));
         }
         else if ($user->profil == 'entraineur') {
+
+            $availabilities = Availability::with('user')->get();
             $events = $user->events; //->whereDate('date','>=', Carbon::today()->toDateString())
             $teams = Team::where('user_id', $user->id)->get();
 
-            return view('home', compact('events', 'teams'));
+            return view('home', compact('events', 'teams', 'availabilities'));
         }
 
 

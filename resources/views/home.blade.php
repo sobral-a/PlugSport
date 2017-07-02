@@ -131,12 +131,18 @@
                                             @endif
                                             @if ($event->pivot->status == 'player')
                                                 <div class="btn-group pull-right">
-                                                    <form class="form-horizontal" role="form" method="POST" action="checkerDisponi">
-                                                        {{ csrf_field() }}
-                                                        <button type="submit" class="btn btn btn-success btn-xs">
-                                                            Vérifier la disponibilité de l'équipe
+                                                    @if (count($availabilities->where('event_id', $event->id)->where('team_id', $team->id)) == 0)
+                                                        <form class="form-horizontal" role="form" method="POST" action="/availability/{{ $team->id }}/{{ $event->id }}">
+                                                            {{ csrf_field() }}
+                                                            <button type="submit" class="btn btn btn-success btn-xs">
+                                                                Vérifier les disponibilités de l'équipe
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <button type="submit" class="btn btn btn-warning btn-xs">
+                                                            Vérification des disponibilités de l'équipe demandée
                                                         </button>
-                                                    </form>
+                                                    @endif
                                                 </div>
                                             @endif
                                         </li>

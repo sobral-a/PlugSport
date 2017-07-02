@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Availability;
 use App\User;
 use Illuminate\Http\Request;
 use App\Event;
@@ -12,6 +13,8 @@ class PlayersController extends Controller
 {
     public function removeUserTeam(Team $team, User $user)
     {
+        $availability = Availability::where('team_id', $team->id)->where('user_id', $user->id)->get(['id']);
+        Availability::destroy($availability->toArray());
         $team->players()->detach($user);
         return back();
     }
