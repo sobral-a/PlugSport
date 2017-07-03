@@ -104,7 +104,32 @@ class EventTest extends DuskTestCase
             $browser->clickLink('Mes évènements')
                 ->clickLink('Tournoi MTI')
                 ->press('Accepter')
-                ->clickLink('Mes évènements')
+                ->assertSee('Notifier mes joueurs par mail');
+        });
+    }
+
+     /**
+     * @group EventTest
+     *
+     * @return void
+     */
+    public function testSendMail()
+    {
+        $this->browse(function ($browser) {
+            $browser->press('Notifier mes joueurs par mail')
+                ->assertSee("Un mail a été envoyé à tous les joueurs de l'équipe.");
+        });
+    }
+
+    /**
+     * @group EventTest
+     *
+     * @return void
+     */
+    public function testCheckStatus()
+    {
+        $this->browse(function ($browser) {
+            $browser->clickLink('Mes évènements')
                 ->assertSee("Vérifier les disponibilités de l'équipe");
         });
     }
