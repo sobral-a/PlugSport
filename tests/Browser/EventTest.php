@@ -84,6 +84,36 @@ class EventTest extends DuskTestCase
      *
      * @return void
      */
+    public function testJoinEvent()
+    {
+        $this->browse(function ($browser) {
+            $browser->press('Rejoindre')
+                ->clickLink('Mes évènements')
+                ->assertSee('En attente');
+        });
+    }
+
+    /**
+     * @group EventTest
+     *
+     * @return void
+     */
+    public function testAcceptEvent()
+    {
+        $this->browse(function ($browser) {
+            $browser->clickLink('Mes évènements')
+                ->clickLink('Tournoi MTI')
+                ->press('Accepter')
+                ->clickLink('Mes évènements')
+                ->assertSee("Vérifier les disponibilités de l'équipe");
+        });
+    }
+
+    /**
+     * @group EventTest
+     *
+     * @return void
+     */
     public function testDeleteEventSuccessed()
     {
         $this->browse(function ($browser) {
