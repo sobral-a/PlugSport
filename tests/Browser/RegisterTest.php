@@ -47,6 +47,25 @@ class RegisterTest extends DuskTestCase
      *
      * @return void
      */
+    public function testRegisterPasswordFailed()
+    {
+        $this->browse(function ($browser) {
+            $browser->visit('/register')
+                ->type('first_name', "Simon")
+                ->type('name', "Radier")
+                ->type('email', "simon@hotmail.fr")
+                ->type('password', "mti2018")
+                ->type('password_confirmation', "mti")
+                ->press("S'inscrire")
+                ->assertSee('The password must be at least 6 characters.');
+        });
+    }
+
+     /**
+     * @group RegisterTest
+     *
+     * @return void
+     */
     public function testRegisterSuccess()
     {
         $this->browse(function ($browser) {
