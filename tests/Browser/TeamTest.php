@@ -55,5 +55,19 @@ class TeamTest extends DuskTestCase
                 ->press('Créer')
                 ->assertSee('MTI Club');
         });
-    }   
+    }
+
+    /**
+     * @group TeamTest
+     *
+     * @return void
+     */
+    public function testDeleteTeamSuccessed()
+    {
+        $this->browse(function ($browser) {
+            $browser->clickLink('Equipes')
+                ->press('Supprimer')
+                ->assertDontSee('MTI Club');
+        });
+    }     
 }
