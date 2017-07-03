@@ -4,13 +4,12 @@ namespace Tests\Browser;
 
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\User;
 
 class LoginTest extends DuskTestCase
 {
     /**
-     * A Dusk test example.
+     * @group LoginTest
      *
      * @return void
      */
@@ -25,6 +24,11 @@ class LoginTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group LoginTest
+     *
+     * @return void
+     */
     public function testLoginSuccessed()
     {
         $this->browse(function ($browser) {
