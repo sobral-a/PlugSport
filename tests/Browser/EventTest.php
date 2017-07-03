@@ -34,7 +34,7 @@ class EventTest extends DuskTestCase
     {
         $this->browse(function ($browser) {
             $browser->clickLink('Mes évènements')
-                ->type('name', 'Tournoi')
+                ->type('name', 'Tournoi MTI')
                 ->type('adress', 'Kremlin Bicetre')
                 ->type('teams_number', '8')
                 ->type('date', 'blabla')
@@ -54,14 +54,42 @@ class EventTest extends DuskTestCase
     {
         $this->browse(function ($browser) {
             $browser->clickLink('Mes évènements')
-                ->type('name', 'Tournoi')
+                ->type('name', 'Tournoi MTI')
                 ->type('adress', 'Kremlin Bicetre')
                 ->type('teams_number', '8')
                 ->type('date', '2017-07-06')
                 ->select('sport')
                 ->type('description', 'Un magnigfique tournoi')
                 ->press('Ajouter')
-                ->assertSee('Tournoi');
+                ->assertSee('Tournoi MTI');
+        });
+    }
+
+    /**
+     * @group EventTest
+     *
+     * @return void
+     */
+    public function testSeeEvent()
+    {
+        $this->browse(function ($browser) {
+            $browser->clickLink('Mes évènements')
+                ->clickLink('Tournoi MTI')
+                ->assertSee('Tournoi MTI');
+        });
+    }
+
+    /**
+     * @group EventTest
+     *
+     * @return void
+     */
+    public function testDeleteEventSuccessed()
+    {
+        $this->browse(function ($browser) {
+            $browser->clickLink('Mes évènements')
+                ->press('Supprimer')
+                ->assertDontSee('Tournoi MTI');
         });
     }
 }
