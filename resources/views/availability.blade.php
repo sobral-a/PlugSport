@@ -27,7 +27,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" href="#collapse1">
+                                            <a data-toggle="collapse" href="#collapse{{$team->id}}-{{$event->id}}">
                                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span> Equipe: <strong>{{ $team->name }}</strong> pour l'évènement <b>{{ $event->name }}</b>
                                             </a>
                                             @if (!$team->banned)
@@ -71,7 +71,7 @@
                                             @endif
                                         </h4>
                                     </div>
-                                    <div id="collapse1" class="panel-collapse collapse">
+                                    <div id="collapse{{$team->id}}-{{$event->id}}" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             @if (!$team->banned)
                                                 <ul class="list-group">
