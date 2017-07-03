@@ -44,4 +44,24 @@ class EventTest extends DuskTestCase
                 ->assertSee('The date is not a valid date.');
         });
     }
+
+    /**
+     * @group EventTest
+     *
+     * @return void
+     */
+    public function testCreateEventSuccessed()
+    {
+        $this->browse(function ($browser) {
+            $browser->clickLink('Mes évènements')
+                ->type('name', 'Tournoi')
+                ->type('adress', 'Kremlin Bicetre')
+                ->type('teams_number', '8')
+                ->type('date', '2017-07-06')
+                ->select('sport')
+                ->type('description', 'Un magnigfique tournoi')
+                ->press('Ajouter')
+                ->assertSee('Tournoi');
+        });
+    }
 }
