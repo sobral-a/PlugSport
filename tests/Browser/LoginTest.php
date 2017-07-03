@@ -25,7 +25,7 @@ class LoginTest extends DuskTestCase
         });
     }
 
-     public function testLoginSuccessed()
+    public function testLoginSuccessed()
     {
         $this->browse(function ($browser) {
             $browser->visit('/login')
