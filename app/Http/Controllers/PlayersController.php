@@ -79,5 +79,4 @@ class PlayersController extends Controller
         else
             return back();
     }
-
 }
