@@ -28,7 +28,7 @@
                                     <label for="sport" class="control-label">Sport</label>
                                     <!--Find a way to reuse old, not working right now-->
                                     <select class="form-control" id="sport" name="sport" value="{{ old('sport') }}" required autofocus>
-                                        <option value="0" > Tous</option>
+                                        <option value="0" >Tous</option>
                                         @foreach($sports as $sport)
                                             <option value="{{ $sport->id }}" > {{ $sport->name }}</option>
                                         @endforeach

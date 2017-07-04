@@ -87,7 +87,7 @@
                                         <a href="/teams/{{ $team->id }}/view">{{ $team->name }}</a>
                                         @if ($team->banned)
                                             <div class="btn-group pull-right">
-                                                <button type="button" class="btn btn-warning btn-xs">Banned</button>
+                                                <button type="button" class="btn btn-warning btn-xs">Bannie</button>
                                             </div>
                                         @else
                                             @if ($team->sport->number == count($team->players->where('pivot.status', 'player')))

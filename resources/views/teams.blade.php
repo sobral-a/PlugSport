@@ -61,7 +61,7 @@
                                                             {{ csrf_field() }}
                                                             {{ method_field('PATCH') }}
                                                             <button type="submit" class="btn btn-success btn-xs">
-                                                                Allow
+                                                                Accepter
                                                             </button>
                                                         </form>
                                                     </div>

@@ -143,24 +143,24 @@
                                         <li class="list-group-item">
                                             {{ $team->name }}
                                             @if(Auth::id() == $team->user_id)
-                                            <div class="btn-group pull-right">
-                                                <form class="form-horizontal" role="form" method="POST" action="/events/{{$event->id}}/{{$team->id}}/denied">
-                                                    {{ csrf_field() }}
-                                                    {{ method_field('PATCH') }}
-                                                    <button type="submit" class="btn btn btn-danger btn-xs">
-                                                        Refuser
-                                                    </button>
-                                                </form>
-                                            </div>
-                                            <div class="btn-group pull-right">
-                                                <form class="form-horizontal" role="form" method="POST" action="/events/{{$event->id}}/{{$team->id}}/accept">
-                                                    {{ csrf_field() }}
-                                                    {{ method_field('PATCH') }}
-                                                    <button type="submit" class="btn btn btn-success btn-xs">
-                                                        Accepter
-                                                    </button>
-                                                </form>
-                                            </div>
+                                                <div class="btn-group pull-right">
+                                                    <form class="form-horizontal" role="form" method="POST" action="/events/{{$event->id}}/{{$team->id}}/denied">
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('PATCH') }}
+                                                        <button type="submit" class="btn btn btn-danger btn-xs">
+                                                            Refuser
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                                <div class="btn-group pull-right">
+                                                    <form class="form-horizontal" role="form" method="POST" action="/events/{{$event->id}}/{{$team->id}}/accept">
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('PATCH') }}
+                                                        <button type="submit" class="btn btn btn-success btn-xs">
+                                                            Accepter
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             @endif
                                             <div class="btn-group">
                                                 <button class="btn btn-warning btn-xs">

@@ -79,7 +79,7 @@
                                                     {{ csrf_field() }}
                                                     {{ method_field('PATCH') }}
                                                     <button type="submit" class="btn btn-success btn-xs">
-                                                        Allow
+                                                        Accepter
                                                     </button>
                                                 </form>
                                             </div>
@@ -249,12 +249,12 @@
                                         @if (!$team->banned)
                                             <div class="btn-group pull-right">
                                                 @if ($team->pivot->status == 'waiting')
-                                                    <button type="button" class="btn btn-info btn-xs">Waiting</button>
+                                                    <button type="button" class="btn btn-info btn-xs">En attente</button>
                                                 @else
                                                     @if ($team->pivot->status == 'denied')
-                                                        <button type="button" class="btn btn-danger btn-xs">Denied</button>
+                                                        <button type="button" class="btn btn-danger btn-xs">Refusé</button>
                                                     @else
-                                                        <button type="button" class="btn btn-success btn-xs">Accepted</button>
+                                                        <button type="button" class="btn btn-success btn-xs">Accepté</button>
                                                     @endif
                                                 @endif
                                             </div>

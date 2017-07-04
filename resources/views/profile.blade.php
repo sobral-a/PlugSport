@@ -25,7 +25,7 @@
                     <div class="panel-body">
                             <form class="form-vertical" role="form" method="POST" action="/profile/rappel">
                                 {{ csrf_field() }}
-                                Autoriser les mails de rappel du coach
+                                Autoriser les mails de rappel de l'entraineur
                                 @if($user->wantsRappel)
                                     <input type="checkbox" name="notif" value="notif" checked >
                                 @else
@@ -45,7 +45,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Informations personnels</div>
+                    <div class="panel-heading">Informations personnelles</div>
                     <div class="panel-body">
                         <form class="form-horizontal" role="form" method="POST" action="/profile/update">
                             {{ csrf_field() }}
