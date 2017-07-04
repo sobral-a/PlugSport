@@ -20,13 +20,16 @@ class SportTest extends TestCase
     public function testAddSport()
     {
         $sports = Sport::all();
-        $result = count($sports);
+        $result1 = count($sports);
 
         $sport = new Sport();
         $sport->name = "Natation";
         $sport->number = 4;
         $sport->save();
 
-        $this->assertTrue($sports->has("Natation"));
+        $sports = Sport::all();
+        $result2 = count($sports);
+
+        $this->assertGreaterThan($result1, $result2);
     }
 }
