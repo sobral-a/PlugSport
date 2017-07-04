@@ -1,3 +1,6 @@
+<?php
+use Carbon\Carbon;
+?>
 @extends('layouts.app')
 
 @section('content')
@@ -32,6 +35,7 @@
                                     @endif
                                     <ul class="list-group">
                                         @foreach($availabilities->where('status', 'waiting') as $av)
+                                            @if($av->event->date >= Carbon::today()->toDateString())
                                             <li class="list-group-item">
                                                 <button type="button" class="btn btn-primary btn-xs">
                                                     {{ $av->team->name }}
@@ -63,6 +67,7 @@
                                                     </div>
                                                 @endif
                                             </li>
+                                            @endif
                                         @endforeach
                                     </ul>
                                 </div>
@@ -157,6 +162,45 @@
                                                     L'équipe a été bannie, vous ne pouvez donc pas accèder aux disponibilités refusées.
                                                 </div>
                                             @endif
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="panel-group">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">Demandes de disponibilité <strong>passées</strong></div>
+
+                            <div class="panel-body">
+                                @if (count($availabilities->where('event.date', '<', Carbon::today()->toDateString())) == 0)
+                                    <div class="alert alert-info alert-dismissable">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        <strong>Aucune demande passée à afficher</strong>
+                                    </div>
+                                @endif
+                                <ul class="list-group">
+                                    @foreach($availabilities->where('event.date', '<', Carbon::today()->toDateString()) as $av)
+                                        <li class="list-group-item">
+                                            <button type="button" class="btn btn-primary btn-xs">
+                                                {{ $av->team->name }}
+                                            </button>
+                                                -  <a href="/events/{{ $av->event->id }}/view">{{ $av->event->name }}</a> qui a eu lieu <?php \Carbon\Carbon::setLocale('fr'); ?>{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $av->event->date)->diffForHumans() }}
+                                                <div class="btn-group pull-right">
+                                                    <form class="form-horizontal" role="form" method="POST" action="/availability/{{ $av->id }}/delete">
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('DELETE') }}
+                                                        <button type="submit" class="btn btn btn-danger btn-xs">
+                                                            Enlever
+                                                        </button>
+                                                    </form>
+                                                </div>
                                         </li>
                                     @endforeach
                                 </ul>

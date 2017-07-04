@@ -64,6 +64,8 @@ Route::post('/availability/{team}/{event}', 'AvailabilitiesController@checkTeamA
 Route::get('/availability/player', 'AvailabilitiesController@playerAvailabilities');
 Route::patch('/availability/{av}/av', 'AvailabilitiesController@setAvailable');
 Route::patch('/availability/{av}/unav', 'AvailabilitiesController@setUnavailable');
+Route::delete('/availability/{av}/delete', 'AvailabilitiesController@delete');
+
 
 
 

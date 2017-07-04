@@ -1,3 +1,6 @@
+<?php
+use Carbon\Carbon;
+?>
 @extends('layouts.app')
 
 @section('content')
@@ -27,12 +30,24 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" href="#collapse{{$team->id}}-{{$event->id}}">
+
+                                            @if($event->date < Carbon::today()->toDateString())
+                                                <a data-toggle="collapse" style="pointer-events: none; cursor: default;">
+                                            @else
+                                                <a data-toggle="collapse" href="#collapse{{$team->id}}-{{$event->id}}">
+                                            @endif
                                                 <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span> Equipe: <strong>{{ $team->name }}</strong> pour l'évènement <b>{{ $event->name }}</b>
                                             </a>
+
                                             @if (!$team->banned)
                                                 <div class="btn-group pull-right">
-                                                    @if (count($availabilities->where('event_id', $event->id)->where('team_id', $team->id)->where('status', 'available')) == 0)
+                                                    @if($event->date < Carbon::today()->toDateString())
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-danger btn-xs">
+                                                                Passé
+                                                            </button>
+                                                        </div>
+                                                    @elseif (count($availabilities->where('event_id', $event->id)->where('team_id', $team->id)->where('status', 'available')) == 0)
                                                         <button type="button" class="btn btn-danger btn-xs"><span class="badge">0</span> joueur disponible</button>
                                                     @else
                                                         @if(count($availabilities->where('event_id', $event->id)->where('team_id', $team->id)->where('status', 'available')) ==
@@ -98,7 +113,10 @@
                                                     @endforeach
                                                 </ul>
                                             @else
-                                                <div class="alert alert-warning">
+                                                <div class="container alert alert-warning alert-dismissible" >
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
                                                     L'équipe a été bannie, vous ne pouvez donc pas accèder aux disponibilités.
                                                 </div>
                                             @endif

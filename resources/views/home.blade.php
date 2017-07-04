@@ -1,3 +1,6 @@
+<?php
+use Carbon\Carbon;
+?>
 @extends('layouts.app')
 
 @section('content')
@@ -116,7 +119,13 @@
                                     @foreach($team->events as $event)
                                         <li class="list-group-item">
                                             <a href="/events/{{ $event->id }}/view">{{ $event->name }}</a>
-                                            @if ($event->pivot->status == 'waiting')
+                                            @if($event->date < Carbon::today()->toDateString())
+                                                <div class="btn-group">
+                                                    <button class="btn btn-danger btn-xs">
+                                                        Passé
+                                                    </button>
+                                                </div>
+                                            @elseif ($event->pivot->status == 'waiting')
                                                 <div class="btn-group">
                                                     <button class="btn btn-warning btn-xs">
                                                         En attente
@@ -128,8 +137,7 @@
                                                         Refusé
                                                     </button>
                                                 </div>
-                                            @endif
-                                            @if ($event->pivot->status == 'player')
+                                            @elseif ($event->pivot->status == 'player')
                                                 <div class="btn-group pull-right">
                                                     @if (count($availabilities->where('event_id', $event->id)->where('team_id', $team->id)) == 0)
                                                         <form class="form-horizontal" role="form" method="POST" action="/availability/{{ $team->id }}/{{ $event->id }}">

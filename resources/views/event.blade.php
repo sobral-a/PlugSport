@@ -1,3 +1,6 @@
+<?php
+use Carbon\Carbon;
+?>
 @extends('layouts.app')
 
 @section('content')
@@ -69,7 +72,13 @@
                                 @endif
                             </form>
                         @if(Auth::user()->profil == 'entraineur' && !Auth::user()->isAdmin)
-
+                            @if($event->date < Carbon::today()->toDateString())
+                                <div class="btn-group pull-right">
+                                    <button class="btn btn-danger btn-xs ">
+                                        Passé
+                                    </button>
+                                </div>
+                            @else
                             <div class="btn-group pull-right">
                                 <form class="form-vertical" role="form" method="POST" action="/events/join/{{ $event->id }}">
                                     <select class="form-control" id="team" name="team" value="{{ old('team') }}" required autofocus>
@@ -83,6 +92,7 @@
                                     </button>
                                 </form>
                             </div>
+                                @endif
                         @endif
                         </div>
                     </div>
@@ -96,12 +106,14 @@
                                         <li class="list-group-item">
                                             {{ $team->name }}
                                             @if(Auth::id() == $event->user_id || Auth::id() == $team->user_id || Auth::user()->isAdmin )
+                                                @if($event->date > Carbon::today()->toDateString())
                                                 <form class="form-horizontal btn-group" role="form" method="POST" action="/mail/notif/{{$team->id}}/{{$event->id}}">
                                                     {{ csrf_field() }}
                                                     <button type="submit" class="btn btn btn-success btn-xs">
                                                         Notifier mes joueurs par mail
                                                     </button>
                                                 </form>
+                                                @endif
                                                 <form class="form-horizontal btn-group pull-right" role="form" method="POST" action="/events/{{$event->id}}/{{$team->id}}">
                                                     {{ csrf_field() }}
                                                     {{ method_field('DELETE') }}

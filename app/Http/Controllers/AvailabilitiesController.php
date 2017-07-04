@@ -54,4 +54,10 @@ class AvailabilitiesController extends Controller
         return back();
     }
 
+    public function delete(Availability $av)
+    {
+        $av->delete();
+        return back();
+    }
+
 }
