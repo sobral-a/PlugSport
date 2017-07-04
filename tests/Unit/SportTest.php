@@ -43,4 +43,23 @@ class SportTest extends TestCase
         $sports = Sport::all();
         $this->assertNotEmpty($sports);
     }
+
+    /**
+     * @group SportTest
+     *
+     * @return void
+     */
+    public function testDeleteSport()
+    {
+        $sports = Sport::all();
+        $result1 = count($sports);
+
+        $sport = Sport::first();
+        $sport->delete();
+        
+        $sports = Sport::all();
+        $result2 = count($sports);
+
+        $this->assertLessThan($result1, $result2);
+    }
 }
