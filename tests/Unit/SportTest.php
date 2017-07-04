@@ -20,11 +20,11 @@ class SportTest extends TestCase
     public function testAddSport()
     {
         $sport = new Sport();
-        $sport->name = "Natation";
+        $sport->name = 'Natation';
         $sport->number = 4;
         $sport->save();
 
-        $this->assertDatabaseHas("sport", ["name" => "Natation"]);
+        $this->assertDatabaseHas('sport', ['name' => 'Natation']);
     }
 
     /**
@@ -48,6 +48,6 @@ class SportTest extends TestCase
         $sport = Sport::first();
         $sport->delete();
         
-        $this->assertDatabaseMissing("sport", ["name" => $sport->name]);
+        $this->assertDatabaseMissing('sport', ['name' => $sport->name]);
     }
 }
