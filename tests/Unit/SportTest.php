@@ -19,18 +19,12 @@ class SportTest extends TestCase
      */
     public function testAddSport()
     {
-        $sports = Sport::all();
-        $result1 = count($sports);
-
         $sport = new Sport();
         $sport->name = "Natation";
         $sport->number = 4;
         $sport->save();
 
-        $sports = Sport::all();
-        $result2 = count($sports);
-
-        $this->assertGreaterThan($result1, $result2);
+        $this->assertDatabaseHas("sport", ["name" => "Natation"]);
     }
 
     /**
@@ -51,15 +45,9 @@ class SportTest extends TestCase
      */
     public function testDeleteSport()
     {
-        $sports = Sport::all();
-        $result1 = count($sports);
-
         $sport = Sport::first();
         $sport->delete();
         
-        $sports = Sport::all();
-        $result2 = count($sports);
-
-        $this->assertLessThan($result1, $result2);
+        $this->assertDatabaseMissing("sport", ["name" => $sport->name]);
     }
 }
