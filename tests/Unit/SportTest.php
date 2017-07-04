@@ -32,4 +32,15 @@ class SportTest extends TestCase
 
         $this->assertGreaterThan($result1, $result2);
     }
+
+    /**
+     * @group SportTest
+     *
+     * @return void
+     */
+    public function testListSport()
+    {
+        $sports = Sport::all();
+        $this->assertNotEmpty($sports);
+    }
 }
