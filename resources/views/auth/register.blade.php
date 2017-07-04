@@ -69,6 +69,36 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="sport" class="col-md-4 control-label">Sport</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control" id="sport" name="sport">
+                                    <option value="0"
+                                            @if (old('email') ||  old('sport') == 0)
+                                            selected="selected"
+                                            @endif
+                                    > Pas de sport préféré</option>
+                                    @foreach($sports as $sport)
+                                        <option value="{{ $sport->id }}"
+                                                @if ($sport->id == old('email'))
+                                                selected="selected"
+                                                @endif
+                                        > {{ $sport->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+
+
+                                <label for="description" class="col-md-4 control-label">Description</label>
+
+                                <div class="col-md-6">
+                                    <textarea class="form-control" id="description" name="description"> {{ old('description') }}</textarea>
+                                </div>
+                        </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Mot de passe</label>

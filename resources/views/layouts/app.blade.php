@@ -49,7 +49,7 @@
                             @if (Auth::user()->isAdmin)
                                 <li><a href="/events">Tous les évènements</a></li>
                                 <li><a href="{{ route('sports') }}">Sports</a></li>
-                                <li><a href="{{ route('eventsAdmin') }}">Evènements</a></li>
+                                <li><a href="/events/{{ Auth::id() }}">Évènements</a></li>
                                 <li><a href="/teams/{{  Auth::id() }}">Equipes</a></li>
                                 <li><a href="/availability">Disponibilités</a></li>
                             @endif

@@ -36,35 +36,45 @@ use Carbon\Carbon;
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
                                 <div class="form-group">
-                                    <label for="adress" class="control-label">Adresse</label>
-                                    <input type="text" class="form-control" name="adress" readonly="readonly" value="{{ $event->adress }}">
+                                    <label for="adress" class="col-md-4 control-label">Adresse</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" name="adress" readonly="readonly" value="{{ $event->adress }}">
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="number" class="control-label"># Teams</label>
-                                    <input type="number" class="form-control" name="teams_number" readonly="readonly" step="1" value="{{ $event->teams_number }}" min="0" max="100">
+                                    <label for="nuber" class="col-md-4 control-label"># Teams</label>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" name="teams_number" readonly="readonly" step="1" value="{{ $event->teams_number }}" min="0" max="100">
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="date" class="control-label">Date</label>
-                                    <input type="text" class="form-control" placeholder="2017-07-15" name="date" readonly="readonly" value="{{ $event->date }}">
+                                    <label for="date" class="col-md-4 control-label">Date</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" placeholder="2017-07-15" name="date" readonly="readonly" value="{{ $event->date }}">
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="sport" class="control-label">Sport</label>
-                                    <select class="form-control" id="sport" name="sport" readonly="readonly" value="{{ $event->sport_id }}">
-                                        @foreach($sports as $sport)
-                                            <option value="{{ $sport->id }}"
-                                                @if ($sport->id == $event->sport_id)
-                                                    selected="selected"
-                                                @endif
-                                            > {{ $sport->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label for="sport" class="col-md-4 control-label">Sport</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control" id="sport" name="sport" readonly="readonly" value="{{ $event->sport_id }}">
+                                            @foreach($sports as $sport)
+                                                <option value="{{ $sport->id }}"
+                                                    @if ($sport->id == $event->sport_id)
+                                                        selected="selected"
+                                                    @endif
+                                                > {{ $sport->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="description" class="control-label">Description</label>
-                                    <textarea class="form-control" id="description" name="description" readonly="readonly"> {{ $event->description }} </textarea>
+                                    <label for="description" class="col-md-4 control-label">Description</label>
+                                    <div class="col-md-6">
+                                        <textarea class="form-control" id="description" name="description" readonly="readonly"> {{ $event->description }} </textarea>
+                                    </div>
                                 </div>
                                 @if (Auth::user()->isAdmin || Auth::id() == $event->user_id )
-                                    <div class="form-group">
+                                     <div class="col-md-6 col-md-offset-4">
                                         <button type="submit" class="btn btn-danger">
                                             Supprimer
                                         </button>
@@ -106,7 +116,7 @@ use Carbon\Carbon;
                                         <li class="list-group-item">
                                             {{ $team->name }}
                                             @if(Auth::id() == $event->user_id || Auth::id() == $team->user_id || Auth::user()->isAdmin )
-                                                @if($event->date > Carbon::today()->toDateString())
+                                                @if($event->date > Carbon::today()->toDateString() && Auth::id() == $team->user_id)
                                                 <form class="form-horizontal btn-group" role="form" method="POST" action="/mail/notif/{{$team->id}}/{{$event->id}}">
                                                     {{ csrf_field() }}
                                                     <button type="submit" class="btn btn btn-success btn-xs">

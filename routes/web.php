@@ -23,7 +23,7 @@ Route::get('/sports', 'SportsController@sports')->name('sports');
 Route::delete('/sports/{sport}', 'SportsController@removeSport');
 Route::post('/sports', 'SportsController@addSport');
 
-Route::get('/eventsAdmin', 'EventsController@eventsAdmin')->name('eventsAdmin');
+//Route::get('/eventsAdmin', 'EventsController@events');
 Route::delete('/events/{event}', 'EventsController@removeEvent');
 Route::get('/events/{user}', 'EventsController@events');
 Route::post('/events/{user}', 'EventsController@addEvent');
@@ -58,6 +58,7 @@ Route::post('/mail/notif/{team}/{event}', 'MailController@sendemail');
 Route::get('/profile' , 'ProfileController@profile');
 Route::post('/profile/rappel' , 'ProfileController@updateRappel');
 Route::post('/profile/update', 'ProfileController@update');
+Route::get('/profile/public/{user}', 'ProfileController@showPublic');
 
 Route::get('/availability', 'AvailabilitiesController@availability');
 Route::post('/availability/{team}/{event}', 'AvailabilitiesController@checkTeamAvailability');

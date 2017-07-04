@@ -25,17 +25,21 @@
                             <form class="form-horizontal" role="form" method="POST" action="/search">
                                 {{ csrf_field() }}
                                 <div class="form-group">
-                                    <label for="sport" class="control-label">Sport</label>
-                                    <!--Find a way to reuse old, not working right now-->
-                                    <select class="form-control" id="sport" name="sport" value="{{ old('sport') }}" required autofocus>
-                                        <option value="0" >Tous</option>
-                                        @foreach($sports as $sport)
-                                            <option value="{{ $sport->id }}" > {{ $sport->name }}</option>
-                                        @endforeach
-                                    </select>
+
+                                    <label for="sport" class="col-md-4 control-label">Sport</label>
+                                    <div class="col-md-6">
+                                        <!--Find a way to reuse old, not working right now-->
+                                        <select class="form-control" id="sport" name="sport" value="{{ old('sport') }}" required autofocus>
+                                            <option value="0" > Tous</option>
+                                            @foreach($sports as $sport)
+                                                <option value="{{ $sport->id }}" > {{ $sport->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                 </div>
 
-                                <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
                                         Appliquer filtre
                                     </button>

@@ -158,18 +158,22 @@
                                 <form class="form-horizontal" role="form" method="POST" action="/teams/{{ Auth::id() }}">
                                     {{ csrf_field() }}
                                     <div class="form-group">
-                                        <label for="name" class="control-label">Nom</label>
-                                        <input type="text"  class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                        <label for="name" class="col-md-4 control-label">Nom</label>
+                                        <div class="col-md-6">
+                                            <input type="text"  class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="sport" class="control-label">Sport</label>
-                                        <select class="form-control" id="sport" name="sport" value="{{ old('sport') }}" required autofocus>
-                                            @foreach($sports as $sport)
-                                                <option value="{{ $sport->id }}" > {{ $sport->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label for="sport" class="col-md-4 control-label">Sport</label>
+                                        <div class="col-md-6">
+                                            <select class="form-control" id="sport" name="sport" value="{{ old('sport') }}" required autofocus>
+                                                @foreach($sports as $sport)
+                                                    <option value="{{ $sport->id }}" > {{ $sport->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="col-md-6 col-md-offset-4">
                                         <button type="submit" class="btn btn-primary">
                                             Créer
                                         </button>

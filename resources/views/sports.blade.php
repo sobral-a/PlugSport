@@ -63,14 +63,18 @@
                         <form class="form-horizontal" role="form" method="POST" action="/sports">
                             {{ csrf_field() }}
                             <div class="form-group">
-                                <label for="name" class="control-label">Nom</label>
-                                <input type="text"  class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                <label for="name" class="col-md-4 control-label">Nom</label>
+                                <div class="col-md-6">
+                                    <input type="text"  class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="number" class="control-label"># Players</label>
-                                <input type="number" class="form-control" name="number" step="1" value="0" min="0" max="20" required autofocus>
+                                <label for="number" class="col-md-4 control-label"># Team</label>
+                                <div class="col-md-6">
+                                    <input type="number" class="form-control" name="number" step="1" value="0" min="0" max="20" required autofocus>
+                                </div>
                             </div>
-                            <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
                                     Ajouter
                                 </button>

@@ -3,12 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use App\Sport;
 
 class ProfileController extends Controller
 {
     public function profile(Request $request) {
         $user = $request->user();
-        return view('profile', compact('user'));
+        $sports = Sport::all();
+        return view('profile', compact('user', 'sports'));
+
+    }
+
+    public function showPublic(User $user) {
+
+        $sports = Sport::all();
+        return view('profile_public', compact('user', 'sports'));
 
     }
 
@@ -29,7 +39,9 @@ class ProfileController extends Controller
 
         $this->validate($request, [
             'name'         => 'required|string|min:2|max:100',
-            'first_name'       => 'required|string|min:2|max:200'
+            'first_name'       => 'required|string|min:2|max:200',
+             'description'  => 'string|nullable',
+            'sport'        => 'integer|nullable'
         ]);
         if (isset($request->password)) {
             $this->validate($request, [
@@ -43,7 +55,8 @@ class ProfileController extends Controller
             }
             $user->password =  bcrypt($request->password);
         }
-
+        $user->sport_id = $request->sport;
+        $user->description = $request->description;
         $user->first_name = $request->first_name;
         $user->name = $request->name;
         $user->save();

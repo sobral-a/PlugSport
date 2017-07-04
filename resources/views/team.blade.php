@@ -90,23 +90,29 @@
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
                                 <div class="form-group">
-                                    <label for="coach" class="control-label">Entraineur</label>
-                                    <input type="text"  class="form-control" name="coach" readonly="readonly" value="{{ $team->user->name }} {{ $team->user->first_name }}" >
+                                    <label for="coach" class="col-md-4 control-label">Entraineur</label>
+                                    <div class="col-md-6">
+                                        <input type="text"  class="form-control" name="coach" readonly="readonly" value="{{ $team->user->name }} {{ $team->user->first_name }}" >
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="sport" class="control-label">Sport</label>
-                                    <select class="form-control" id="sport" name="sport" readonly="readonly" value="{{ $team->sport->number }}" >
-                                        @foreach($sports as $sport)
-                                            <option value="{{ $sport->id }}" > {{ $sport->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label for="sport" class="col-md-4 control-label">Sport</label>
+                                    <div class="col-md-6">
+                                        <select class="form-control" id="sport" name="sport" readonly="readonly" value="{{ $team->sport->number }}" >
+                                            @foreach($sports as $sport)
+                                                <option value="{{ $sport->id }}" > {{ $sport->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="number" class="control-label"># Players</label>
-                                    <input type="text" class="form-control" name="teams_number" readonly="readonly" step="1" value="{{ count($team->players->where('pivot.status', 'player')) }} / {{  $team->sport->number }}" min="0" max="100">
+                                    <label for="number" class="col-md-4 control-label"># Teams</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" name="teams_number" readonly="readonly" step="1" value="{{ count($team->players->where('pivot.status', 'player')) }} / {{  $team->sport->number }}" min="0" max="100">
+                                    </div>
                                 </div>
                                 @if (Auth::user()->isAdmin || Auth::id() == $team->user->id )
-                                    <div class="form-group">
+                                    <div class="col-md-6 col-md-offset-4">
                                         <button type="submit" class="btn btn-danger">
                                             Supprimer
                                         </button>
@@ -116,15 +122,15 @@
                             </div>
                         </div>
 
-                        @if (Auth::user()->profil == 'entraineur')
+                        @if (Auth::user()->isAdmin || Auth::user()->id == $team->user_id)
                             <div class="panel panel-success">
-                                <div class="panel-heading">Joueurs de votre équipe</div>
+                                <div class="panel-heading">Joueurs de cette équipe</div>
                                 <div class="panel-body">
                                     <ul>
                                         @foreach($team->players as $player)
                                             @if ($player->pivot->status == 'player')
                                                 <li>
-                                                    {{ $player->first_name }} {{ $player->name }}
+                                                    <a href="/profile/public/{{$player->id}}">{{ $player->first_name }} {{ $player->name }}</a>
                                                     <form class="form-horizontal btn-group pull-right" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}">
                                                         {{ csrf_field() }}
                                                         {{ method_field('DELETE') }}
@@ -146,7 +152,7 @@
                                         @foreach($team->players as $player)
                                             @if ($player->pivot->status == 'denied')
                                                 <li class="list-group-item">
-                                                    {{ $player->first_name }} {{ $player->name }}
+                                                    <a href="/profile/public/{{$player->id}}">{{ $player->first_name }} {{ $player->name }}</a>
                                                     <div class="btn-group pull-right">
                                                         <form class="form-horizontal" role="form" method="POST" action="/players/{{ $team->id }}/{{ $player->id }}">
                                                             {{ csrf_field() }}

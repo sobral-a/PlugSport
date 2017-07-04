@@ -38,12 +38,6 @@ class EventsController extends Controller
         return back();
     }
 
-    public function eventsAdmin()
-    {
-        $sports = Sport::all();
-        $events = Event::all(); //->whereDate('date','>=', Carbon::today()->toDateString())
-        return view('events_admin', compact('events', 'sports' ));
-    }
 
     public function events(User $user)
     {
@@ -58,8 +52,14 @@ class EventsController extends Controller
         }
         else {
             $sports = Sport::all();
-            $events = $user->events; //->whereDate('date','>=', Carbon::today()->toDateString())
-            $teams = Team::where('user_id', $user->id)->get();
+            if($user->isAdmin)
+            {
+                $events = Event::all(); //->whereDate('date','>=', Carbon::today()->toDateString())
+            }
+            else {
+                $events = $user->events; //->whereDate('date','>=', Carbon::today()->toDateString())
+                $teams = Team::where('user_id', $user->id)->get();
+            }
         }
         $availabilities = Availability::all();
 
