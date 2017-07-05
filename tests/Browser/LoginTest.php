@@ -29,6 +29,50 @@ class LoginTest extends DuskTestCase
      *
      * @return void
      */
+    public function testMissingFields()
+    {
+        $this->browse(function ($browser) {
+            $browser->visit('/login')
+                ->press('Se connecter')
+                ->assertPathIs('/login');
+        });
+    }
+
+    /**
+     * @group LoginTest
+     *
+     * @return void
+     */
+    public function testMissingPassword()
+    {
+        $this->browse(function ($browser) {
+            $browser->visit('/login')
+                ->type('email',  'test@hotmail.fr')
+                ->press('Se connecter')
+                ->assertPathIs('/login');
+        });
+    }
+
+     /**
+     * @group LoginTest
+     *
+     * @return void
+     */
+    public function testMissingEmail()
+    {
+        $this->browse(function ($browser) {
+            $browser->visit('/login')
+                ->type('password',  'test')
+                ->press('Se connecter')
+                ->assertPathIs('/login');
+        });
+    }
+
+    /**
+     * @group LoginTest
+     *
+     * @return void
+     */
     public function testLoginSuccessed()
     {
         $user = factory(User::class)->create();
