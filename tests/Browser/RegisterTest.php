@@ -14,9 +14,11 @@ class RegisterTest extends DuskTestCase
      */
     public function testRegisterMissingField()
     {
+        $user = factory(User::class)->create();
+
         $this->browse(function ($browser) {
             $browser->visit('/register')
-                ->type('first_name', "Simon")
+                ->type('first_name', $user->first_name)
                 ->press("S'inscrire")
                 ->assertPathIs('/register');
         });
@@ -29,13 +31,15 @@ class RegisterTest extends DuskTestCase
      */
     public function testRegisterEmailFailed()
     {
+        $user = User::first();
+
         $this->browse(function ($browser) {
             $browser->visit('/register')
-                ->type('first_name', "Simon")
-                ->type('name', "Radier")
-                ->type('email', "simon")
-                ->type('password', "mti2018")
-                ->type('password_confirmation', "mti2018")
+                ->type('first_name', $user->first_name)
+                ->type('name', $user->name)
+                ->type('email', "toto")
+                ->type('password', $user->password)
+                ->type('password_confirmation', $user->password)
                 ->press("S'inscrire")
                 ->assertPathIs('/register');
         });
@@ -56,7 +60,7 @@ class RegisterTest extends DuskTestCase
                 ->type('password', "mti2018")
                 ->type('password_confirmation', "mti")
                 ->press("S'inscrire")
-                ->assertSee('The password must be at least 6 characters.');
+                ->assertSee('The password confirmation does not match.');
         });
     }
 

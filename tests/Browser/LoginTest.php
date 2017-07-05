@@ -31,10 +31,13 @@ class LoginTest extends DuskTestCase
      */
     public function testLoginSuccessed()
     {
-        $this->browse(function ($browser) {
+        $user = factory(User::class)->create();
+        $user = User::first();
+
+        $this->browse(function ($browser) use ($user) {
             $browser->visit('/login')
-                ->type('email', "khalis@hotmail.fr")
-                ->type('password',  "test75")
+                ->type('email', $user->email)
+                ->type('password',  'secret75')
                 ->press('Se connecter')
                 ->assertPathIs('/home');
         });
