@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
+use App\User;
 
 class RegisterTest extends DuskTestCase
 {
@@ -16,7 +17,7 @@ class RegisterTest extends DuskTestCase
     {
         $user = factory(User::class)->create();
 
-        $this->browse(function ($browser) {
+        $this->browse(function ($browser) use ($user) {
             $browser->visit('/register')
                 ->type('first_name', $user->first_name)
                 ->press("S'inscrire")
@@ -31,15 +32,17 @@ class RegisterTest extends DuskTestCase
      */
     public function testRegisterEmailFailed()
     {
+        $user = factory(User::class)->create();
         $user = User::first();
 
-        $this->browse(function ($browser) {
+        $this->browse(function ($browser) use ($user) {
             $browser->visit('/register')
                 ->type('first_name', $user->first_name)
                 ->type('name', $user->name)
                 ->type('email', "toto")
-                ->type('password', $user->password)
-                ->type('password_confirmation', $user->password)
+                ->type('description', 'Cool')
+                ->type('password', 'secret75')
+                ->type('password_confirmation', 'secret75')
                 ->press("S'inscrire")
                 ->assertPathIs('/register');
         });
@@ -52,13 +55,17 @@ class RegisterTest extends DuskTestCase
      */
     public function testRegisterPasswordFailed()
     {
-        $this->browse(function ($browser) {
+        $user = factory(User::class)->create();
+        $user = User::first();
+
+         $this->browse(function ($browser) use ($user) {
             $browser->visit('/register')
-                ->type('first_name', "Simon")
-                ->type('name', "Radier")
-                ->type('email', "simon@hotmail.fr")
-                ->type('password', "mti2018")
-                ->type('password_confirmation', "mti")
+                ->type('first_name', $user->first_name)
+                ->type('name', $user->name)
+                ->type('email', $user->email)
+                ->type('description', 'Cool')
+                ->type('password', 'secret75')
+                ->type('password_confirmation', 'secret')
                 ->press("S'inscrire")
                 ->assertSee('The password confirmation does not match.');
         });
@@ -71,34 +78,19 @@ class RegisterTest extends DuskTestCase
      */
     public function testRegisterSuccess()
     {
-        $this->browse(function ($browser) {
+        $user = factory(User::class)->create();
+        $user = User::first();
+
+        $this->browse(function ($browser) use ($user) {
             $browser->visit('/register')
-                ->type('first_name', "Simon")
-                ->type('name', "Radier")
-                ->type('email', "simon@hotmail.fr")
-                ->type('password', "mti2018")
-                ->type('password_confirmation', "mti2018")
+               ->type('first_name', $user->first_name)
+                ->type('name', $user->name)
+                ->type('email', $user->email)
+                ->type('description', 'Cool')
+                ->type('password', 'secret75')
+                ->type('password_confirmation', 'secret75')
                 ->press("S'inscrire")
                 ->assertPathIs('/home');
-        });
-    }
-
-     /**
-     * @group RegisterTest
-     *
-     * @return void
-     */
-    public function testRegisterFailed()
-    {
-        $this->browse(function ($browser) {
-            $browser->visit('/register')
-                ->type('first_name', "Simon")
-                ->type('name', "Radier")
-                ->type('email', "simon@hotmail.fr")
-                ->type('password', "mti2018")
-                ->type('password_confirmation', "mti2018")
-                ->press("S'inscrire")
-                ->assertSee('The email has already been taken.');
         });
     }
 }
