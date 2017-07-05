@@ -35,8 +35,8 @@ class TeamTest extends DuskTestCase
     public function testCreateTeamFailed()
     {
         $this->browse(function ($browser) {
-            $browser->clickLink('Equipes')
-                ->select('sport')
+            $browser->select('sport')
+                ->press('Créer')
                 ->assertDontSee('MTI Club');
         });
     }   
@@ -55,19 +55,5 @@ class TeamTest extends DuskTestCase
                 ->press('Créer')
                 ->assertSee('MTI Club');
         });
-    }
-
-    /**
-     * @group TeamTest
-     *
-     * @return void
-     */
-    public function testDeleteTeamSuccessed()
-    {
-        $this->browse(function ($browser) {
-            $browser->clickLink('Equipes')
-                ->press('Supprimer')
-                ->assertDontSee('MTI Club');
-        });
-    }     
+    }    
 }

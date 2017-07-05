@@ -88,7 +88,6 @@ class EventTest extends DuskTestCase
     {
         $this->browse(function ($browser) {
             $browser->press('Rejoindre')
-                ->clickLink('Mes évènements')
                 ->assertSee('En attente');
         });
     }
@@ -101,9 +100,7 @@ class EventTest extends DuskTestCase
     public function testAcceptEvent()
     {
         $this->browse(function ($browser) {
-            $browser->clickLink('Mes évènements')
-                ->clickLink('Tournoi MTI')
-                ->press('Accepter')
+            $browser->press('Accepter')
                 ->assertSee('Notifier mes joueurs par mail');
         });
     }
@@ -131,20 +128,6 @@ class EventTest extends DuskTestCase
         $this->browse(function ($browser) {
             $browser->clickLink('Mes évènements')
                 ->assertSee("Vérifier les disponibilités de l'équipe");
-        });
-    }
-
-    /**
-     * @group EventTest
-     *
-     * @return void
-     */
-    public function testDeleteEventSuccessed()
-    {
-        $this->browse(function ($browser) {
-            $browser->clickLink('Mes évènements')
-                ->press('Supprimer')
-                ->assertDontSee('Tournoi MTI');
         });
     }
 }
