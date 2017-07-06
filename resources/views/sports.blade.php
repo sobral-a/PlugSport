@@ -69,7 +69,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="number" class="col-md-4 control-label"># Team</label>
+                                <label for="number" class="col-md-4 control-label"># joueurs</label>
                                 <div class="col-md-6">
                                     <input type="number" class="form-control" name="number" step="1" value="0" min="0" max="20" required autofocus>
                                 </div>
