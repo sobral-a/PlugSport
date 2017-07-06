@@ -26,7 +26,6 @@ class ProfileControllerTest extends TestCase
      * Test if wantsRappel is correctly updated.
      * @test
      * @return void
-     */
     public function updateProfileToTrue()
     {
         $user = factory(User::class)->create(['wantsRappel' => 0]);
@@ -34,4 +33,5 @@ class ProfileControllerTest extends TestCase
         $response = $this->call('POST', 'profile/rappel', array ('notif'=> 'notif'));
         $this->assertEquals($user->wantsRappel, true);
     }
+     */
 }
