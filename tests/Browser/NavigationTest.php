@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\User;
 
 class NavigationTest extends DuskTestCase
 {
@@ -32,7 +33,6 @@ class NavigationTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
                     ->clickLink('Connexion')
-                    ->assertSee('Connexion')
                     ->assertPathIs('/login');
         });
     }
@@ -47,7 +47,6 @@ class NavigationTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/register')
                     ->clickLink('Se connecter')
-                    ->assertSee('Connexion')
                     ->assertPathIs('/login');
         });
     }
@@ -62,7 +61,6 @@ class NavigationTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
                     ->clickLink('Inscription')
-                    ->assertSee("S'inscrire")
                     ->assertPathIs('/register');
         });
     }
@@ -77,8 +75,77 @@ class NavigationTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/login')
                     ->clickLink("S'inscrire")
-                    ->assertSee("S'inscrire")
                     ->assertPathIs('/register');
+        });
+    }
+
+    /**
+     * @group NavigationTest
+     *
+     * @return void
+     */
+    public function testDashboard()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/login')
+                    ->type('email', 'khalis@hotmail.fr')
+                    ->type('password', 'test75')
+                    ->press('Se connecter')
+                    ->assertPathIs('/home');
+        });
+    }
+
+    /**
+     * @group NavigationTest
+     *
+     * @return void
+     */
+    public function testAllEvents()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->clickLink('Tous les évènements')
+                    ->assertPathIs('/events');
+        });
+    }
+
+     /**
+     * @group NavigationTest
+     *
+     * @return void
+     */
+    public function testAvailability()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->clickLink('Disponibilités')
+                    ->assertPathIs('/availability');
+        });
+    }
+
+    /**
+     * @group NavigationTest
+     *
+     * @return void
+     */
+    public function testProfile()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->clickLink('khalis')
+                    ->clickLink('Profile')
+                    ->assertPathIs('/profile');
+        });
+    }
+
+    /**
+     * @group NavigationTest
+     *
+     * @return void
+     */
+    public function testLogout()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->clickLink('khalis')
+                    ->clickLink('Se déconnecter')
+                    ->assertPathIs('/');
         });
     }
 }
