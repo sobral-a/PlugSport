@@ -66,6 +66,17 @@
                                 @foreach($events as $event)
                                     <li class="list-group-item">
                                         <a href="/events/{{ $event->id }}/view">{{ $event->name }}</a>
+                                        @if (Auth::id() == $event->user_id ||Auth::user()->isAdmin == 1)
+                                            <div class="btn-group pull-right">
+                                                <form class="form-horizontal" role="form" method="POST" action="/events/{{ $event->id }}">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <button type="submit" class="btn btn btn-danger btn-xs">
+                                                        Supprimer
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @endif
                                     </li>
                                 @endforeach
                             </ul>
