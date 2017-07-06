@@ -75,7 +75,7 @@ class EventTest extends DuskTestCase
         $this->browse(function ($browser) {
             $browser->clickLink('Mes évènements')
                 ->clickLink('Tournoi MTI')
-                ->assertSee('Tournoi MTI');
+                ->assertSee('Equipes participantes');
         });
     }
 
