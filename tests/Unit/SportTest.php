@@ -9,7 +9,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Sport;
 
 class SportTest extends TestCase
-{  
+{
+
     protected $sport;
     
     /**
