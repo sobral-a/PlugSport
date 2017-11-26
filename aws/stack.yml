@@ -1,0 +1,96 @@
+Resources:
+  PlugSportApp:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-add175d4
+      KeyName: archi-plateforme-2
+      SecurityGroups:
+        - !Ref PlugSportSG
+      UserData:
+        Fn::Base64:
+         !Sub |
+         #!/bin/bash
+         echo "ip is ${IPAddressDB} " > ipadress.txt
+         sudo apt-get update
+         sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
+         sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
+         sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
+         sudo apt-get -y install mysql-server php7.0 php-zip php-curl php-mbstring php-dom php-mysql
+         curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+         sudo composer global require "laravel/installer"
+         export HOME=/home/ubuntu
+         printenv
+         git clone  https://github.com/sobral-a/PlugSport.git
+         cd PlugSport/
+         cp .env.example .env
+         composer install
+         php artisan key:generate
+         sed -i '/DB_HOST/c\DB_HOST=${IPAddressDB}' .env
+         sed -i '/DB_DATABASE/c\DB_DATABASE=plugsport' .env
+         sed -i '/DB_USERNAME/c\DB_USERNAME=plugsportApp' .env
+         sed -i '/DB_PASSWORD/c\DB_PASSWORD=plugsportApppwd' .env
+         php artisan serve --host=0.0.0.0
+  PlugSportDB:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-add175d4
+      KeyName: archi-plateforme-2
+      SecurityGroups:
+        - !Ref PlugSportSG
+      UserData:
+        Fn::Base64:
+         !Sub |
+           #!/bin/bash
+           sudo apt-get update
+           sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
+           sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
+           sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
+           sudo apt-get -y install mysql-server
+           yes n | sudo mysql_secure_installation -proot
+           mysql -uroot -proot -e 'create database plugsport;'
+           sed -e '/bind-address/s/^/#/' -i  /etc/mysql/mysql.conf.d/mysqld.cnf
+           echo 'bind-address=${IPAddressApp}' | sudo tee --append /etc/mysql/conf.d/mysql.cnf
+           sudo systemctl restart mysql
+           mysql -uroot -proot -e "GRANT ALL ON plugsport.* TO plugsportApp@'${IPAddressApp}' IDENTIFIED BY 'plugsportApppwd';"
+           curl -O https://raw.githubusercontent.com/sobral-a/PlugSport/e68e2fac944e4c6c6a8da7f4f15cf3b6d75efc1c/database/script/structure.sql
+           mysql -uroot -proot -Dplugsport < structure.sql
+  PlugSportSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: for the app nodes that allow ssh, http and docker ports
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '8000'
+        ToPort: '8000'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '3306'
+        ToPort: '3306'
+        CidrIp: 0.0.0.0/0
+  IPAddressDB:
+      Type: AWS::EC2::EIP
+  IPAssocDB:
+      Type : AWS::EC2::EIPAssociation
+      Properties:
+         InstanceId: !Ref PlugSportDB
+         EIP: !Ref IPAddressDB
+  IPAddressApp:
+      Type: AWS::EC2::EIP
+  IPAssocApp:
+      Type : AWS::EC2::EIPAssociation
+      Properties:
+         InstanceId: !Ref PlugSportApp
+         EIP: !Ref IPAddressApp
+      
+    
+    
