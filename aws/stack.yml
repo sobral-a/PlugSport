@@ -1,12 +1,127 @@
+Parameters:
+  WebServerCapacity:
+    ConstraintDescription: must be between 1 and 5 EC2 instances.
+    Default: '2'
+    Description: The initial number of WebServer instances
+    MaxValue: '5'
+    MinValue: '1'
+    Type: Number
+
 Resources:
-  PlugSportApp:
-    Type: AWS::EC2::Instance
+  PlugSportSG:
+    Type: AWS::EC2::SecurityGroup
     Properties:
-      InstanceType: t2.micro
+      GroupDescription: for the app nodes that allow ssh, http and docker ports
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '8000'
+        ToPort: '8000'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '3306'
+        ToPort: '3306'
+        CidrIp: 0.0.0.0/0
+
+
+  WebServerScaleUpPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AdjustmentType: ChangeInCapacity
+      AutoScalingGroupName: !Ref 'AutoScalingGroupApp'
+      Cooldown: '60'
+      ScalingAdjustment: '1'
+  WebServerScaleDownPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AdjustmentType: ChangeInCapacity
+      AutoScalingGroupName: !Ref 'AutoScalingGroupApp'
+      Cooldown: '60'
+      ScalingAdjustment: '-1'
+  CPUAlarmHigh:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: Scale-up if CPU > 50% for 1 minute
+      MetricName: CPUUtilization
+      Namespace: AWS/EC2
+      Statistic: Average
+      Period: '60'
+      EvaluationPeriods: '1'
+      Threshold: '50'
+      AlarmActions: [!Ref 'WebServerScaleUpPolicy']
+      Dimensions:
+      - Name: AutoScalingGroupName
+        Value: !Ref 'AutoScalingGroupApp'
+      ComparisonOperator: GreaterThanThreshold
+  CPUAlarmLow:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: Scale-down if CPU < 30% for 20 minutes
+      MetricName: CPUUtilization
+      Namespace: AWS/EC2
+      Statistic: Average
+      Period: '600'
+      EvaluationPeriods: '2'
+      Threshold: '30'
+      AlarmActions: [!Ref 'WebServerScaleDownPolicy']
+      Dimensions:
+      - Name: AutoScalingGroupName
+        Value: !Ref 'AutoScalingGroupApp'
+      ComparisonOperator: LessThanThreshold
+
+  ElasticLoadBalancer:
+    Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Properties:
+      AppCookieStickinessPolicy:
+      - PolicyName: CookiePolicy
+        CookieName: laravel_session
+
+      AvailabilityZones:
+        Fn::GetAZs: ''
+      CrossZone: 'true'
+      HealthCheck:
+        HealthyThreshold: '2'
+        Interval: '10'
+        Target: HTTP:8000/
+        Timeout: '5'
+        UnhealthyThreshold: '5'
+      Listeners:
+      - InstancePort: '8000'
+        LoadBalancerPort: '8000'
+        Protocol: HTTP
+        PolicyNames:
+        - CookiePolicy
+
+  AutoScalingGroupApp:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AvailabilityZones:
+        Fn::GetAZs: ''
+      DesiredCapacity:
+        Ref: WebServerCapacity
+      LaunchConfigurationName:
+        Ref: LaunchConfig
+      LoadBalancerNames:
+      - Ref: ElasticLoadBalancer
+      MaxSize: '5'
+      MinSize: '1'
+
+
+  LaunchConfig:
+    Type: AWS::AutoScaling::LaunchConfiguration
+    Properties:
       ImageId: ami-add175d4
+      InstanceType: t2.micro
       KeyName: archi-plateforme-2
       SecurityGroups:
-        - !Ref PlugSportSG
+      - Ref: PlugSportSG
       UserData:
         Fn::Base64:
          !Sub |
@@ -30,6 +145,9 @@ Resources:
          sed -i '/DB_DATABASE/c\DB_DATABASE=plugsport' .env
          sed -i '/DB_USERNAME/c\DB_USERNAME=plugsportApp' .env
          sed -i '/DB_PASSWORD/c\DB_PASSWORD=plugsportApppwd' .env
+         sed -i '/DB_PASSWORD/c\DB_PASSWORD=plugsportApppwd' .env
+         sed -i '/SESSION_DRIVER/c\SESSION_DRIVER=database' .env
+
          php artisan serve --host=0.0.0.0
   PlugSportDB:
     Type: AWS::EC2::Instance
@@ -51,32 +169,11 @@ Resources:
            yes n | sudo mysql_secure_installation -proot
            mysql -uroot -proot -e 'create database plugsport;'
            sed -e '/bind-address/s/^/#/' -i  /etc/mysql/mysql.conf.d/mysqld.cnf
-           echo 'bind-address=${IPAddressApp}' | sudo tee --append /etc/mysql/conf.d/mysql.cnf
+           echo 'bind-address=0.0.0.0' | sudo tee --append /etc/mysql/conf.d/mysql.cnf
            sudo systemctl restart mysql
-           mysql -uroot -proot -e "GRANT ALL ON plugsport.* TO plugsportApp@'${IPAddressApp}' IDENTIFIED BY 'plugsportApppwd';"
-           curl -O https://raw.githubusercontent.com/sobral-a/PlugSport/e68e2fac944e4c6c6a8da7f4f15cf3b6d75efc1c/database/script/structure.sql
+           mysql -uroot -proot -e "GRANT ALL ON plugsport.* TO plugsportApp@'%' IDENTIFIED BY 'plugsportApppwd';"
+            curl -O https://raw.githubusercontent.com/sobral-a/PlugSport/d1eeb1d723bd6613c84862a30317e9ac2d40e82c/database/script/structure.sql
            mysql -uroot -proot -Dplugsport < structure.sql
-  PlugSportSG:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: for the app nodes that allow ssh, http and docker ports
-      SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: '80'
-        ToPort: '80'
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: '22'
-        ToPort: '22'
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: '8000'
-        ToPort: '8000'
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: '3306'
-        ToPort: '3306'
-        CidrIp: 0.0.0.0/0
   IPAddressDB:
       Type: AWS::EC2::EIP
   IPAssocDB:
@@ -84,13 +181,3 @@ Resources:
       Properties:
          InstanceId: !Ref PlugSportDB
          EIP: !Ref IPAddressDB
-  IPAddressApp:
-      Type: AWS::EC2::EIP
-  IPAssocApp:
-      Type : AWS::EC2::EIPAssociation
-      Properties:
-         InstanceId: !Ref PlugSportApp
-         EIP: !Ref IPAddressApp
-      
-    
-    
